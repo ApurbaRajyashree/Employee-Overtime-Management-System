@@ -1,9 +1,8 @@
 package com.example.overtimesystem.dto;
 
+import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.User;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,14 @@ import java.util.List;
 public class DepartmentDto {
     private int id;
     private String departmentName;
+
+    private boolean isActive;
     private List<Project> projectList;
     private List<User> users;
+
+    public DepartmentDto(Department department) {
+        this.id = department.getId();
+        this.departmentName = department.getDepartmentName();
+        this.isActive = department.isActive();
+    }
 }
