@@ -19,16 +19,16 @@ public class ProjectMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "is_lead",nullable = false)
+    @Column(name = "is_lead", nullable = false)
     private boolean isLead;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id",referencedColumnName = "id",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "users")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id",referencedColumnName = "id",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "project")
     private Project project;
 }
