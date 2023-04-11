@@ -2,6 +2,7 @@ package com.example.overtimesystem.dto;
 
 import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.OverTimeDetail;
+import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.ProjectMember;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -23,7 +24,17 @@ public class ProjectDto {
     private String projectName;
     private String projectCode;
     private Date estimatedDueDate;
+    private boolean isActive;
     private List<OverTimeDetail> overTimeDetailList;
     private Department department;
     private List<ProjectMember> projectMembers;
+
+    public ProjectDto(Project project) {
+        this.id = project.getId();
+        this.department = project.getDepartment();
+        this.projectCode = project.getProjectCode();
+        this.projectName = project.getProjectName();
+        this.estimatedDueDate = project.getEstimatedDueDate();
+        this.isActive = project.isActive();
+    }
 }
