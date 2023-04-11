@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Register a user</h1>
+<form class="row g-3" th:action="@{/create}" method="post" th:object="${user}">
+    <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputEmail4", th:field="*{email}">
+    </div>
+
+    <div class="col-12">
+        <label for="inputFullName" class="form-label">FullName</label>
+        <input type="text" class="form-control" id="inputFullName", th:field="*{fullName}">
+    </div>
+    <div class="col-12">
+        <label for="inputMobileNumber" class="form-label">Mobile Number</label>
+        <input type="text" class="form-control" id="inputMobileNumber", th:field="*{mobileNumber}">
+    </div>
+    <div class="col-md-6">
+        <label for="inputDesignation" class="form-label">Designation</label>
+        <input type="text" class="form-control" id="inputDesignation", th:field="*{designation}">
+    </div>
+    <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Password</label>
+        <input type="password" class="form-control" id="inputPassword4", th:field="*{password}">
+    </div>
+    <div class="col-md-4">
+        <label for="inputDepartment" class="form-label">Department</label>
+        <select id="inputDepartment" class="form-select", th:field="*{department}">
+            <option value="0">select option</option>
+            <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.departmentName}"></option>
+        </select>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </div>
+</form>
+
+</body>
+</html>

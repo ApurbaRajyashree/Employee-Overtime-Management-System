@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Department</title>
+</head>
+<body>
+<h1>Add a Department</h1>
+<form class="row g-3" th:action="@{/department/create}" method="post" th:object="${department}">
+    <div class="col-md-6">
+        <label for="inputDepartmentName" class="form-label">Department Name</label>
+        <input type="text" class="form-control" id="inputDepartmentName", th:field="*{departmentName}">
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </div>
+</form>
+</body>
+</html>

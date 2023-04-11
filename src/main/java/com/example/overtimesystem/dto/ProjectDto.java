@@ -24,7 +24,7 @@ public class ProjectDto {
     private String projectName;
     private String projectCode;
     private Date estimatedDueDate;
-    private boolean isActive;
+    private boolean isActive = true;
     private List<OverTimeDetail> overTimeDetailList;
     private Department department;
     private List<ProjectMember> projectMembers;

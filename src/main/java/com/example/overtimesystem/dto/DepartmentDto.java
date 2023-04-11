@@ -18,7 +18,7 @@ public class DepartmentDto {
     private int id;
     private String departmentName;
 
-    private boolean isActive;
+    private boolean isActive=true;
     private List<Project> projectList;
     private List<User> users;
 
