@@ -25,12 +25,12 @@ public class OverTimeMaster {
     @Enumerated(EnumType.STRING)
     private Month month;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "users")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "overTimeMaster")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "overTimeMaster")
     @JsonManagedReference(value = "over_time_detail")
     private List<OverTimeDetail> overTimeDetails;
 
