@@ -20,10 +20,10 @@ public class OverTimeDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "date",nullable = false)
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "logs", nullable = false,length = 100)
+    @Column(name = "logs", nullable = false, length = 100)
     private String logs;
 
     @Column(name = "start_time", nullable = false)
@@ -32,13 +32,13 @@ public class OverTimeDetail {
     @Column(name = "end_time", nullable = false)
     private Time endTime;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id",referencedColumnName = "id",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "project")
     private Project project;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "over_time_master_id", referencedColumnName = "id",nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "over_time_master_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "over_time_master")
     private OverTimeMaster overTimeMaster;
 }
