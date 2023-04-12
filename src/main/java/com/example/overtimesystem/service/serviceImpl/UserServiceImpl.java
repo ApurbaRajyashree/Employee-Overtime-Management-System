@@ -5,6 +5,9 @@ import com.example.overtimesystem.entity.User;
 import com.example.overtimesystem.repository.UserRepository;
 import com.example.overtimesystem.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +16,16 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+//
+//    @Autowired
+//    private PasswordEncoder bCryptPasswordEncoder;
 
     private final UserRepository userRepository;
 
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = new User(userDto);
+       // user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return new UserDto(user);
     }

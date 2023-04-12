@@ -1,10 +1,9 @@
 package com.example.overtimesystem.dto;
 
-import com.example.overtimesystem.entity.Department;
-import com.example.overtimesystem.entity.OverTimeMaster;
-import com.example.overtimesystem.entity.ProjectMember;
-import com.example.overtimesystem.entity.User;
+import com.example.overtimesystem.entity.*;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,15 +19,23 @@ public class UserDto {
 
     private int id;
 
+    @NotEmpty(message = "Email should not be empty")
+    @Email
     private String email;
 
+    @NotEmpty
     private String fullName;
 
+    @NotEmpty(message = "Mobile Number should not be empty")
     private String mobileNumber;
 
+    @NotEmpty(message = "Designation should not be empty")
     private String designation;
 
+    @NotEmpty
     private String password;
+
+    private Role role;
 
     private boolean isActive = true;
 
@@ -47,5 +54,6 @@ public class UserDto {
         this.department = user.getDepartment();
         this.password = user.getPassword();
         this.isActive = user.isActive();
+        this.role = user.getRole();
     }
 }

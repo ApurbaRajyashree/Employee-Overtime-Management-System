@@ -50,6 +50,9 @@ public class User {
     @JoinColumn(name = "department_id", referencedColumnName = "id", nullable = false)
     private Department department;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     @JsonManagedReference(value = "over_time_master")
     private List<OverTimeMaster> overTimeMasterList;
@@ -67,5 +70,6 @@ public class User {
         this.department = userDto.getDepartment();
         this.password = userDto.getPassword();
         this.isActive = userDto.isActive();
+        this.role = userDto.getRole();
     }
 }
