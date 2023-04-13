@@ -16,16 +16,15 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-//
-//    @Autowired
-//    private PasswordEncoder bCryptPasswordEncoder;
+
+    private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = new User(userDto);
-       // user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
         return new UserDto(user);
     }

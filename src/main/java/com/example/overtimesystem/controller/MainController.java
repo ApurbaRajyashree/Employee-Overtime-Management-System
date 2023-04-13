@@ -22,6 +22,6 @@ public class MainController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@ModelAttribute UserDto login) {
-        return "profile";
+        return "dashboard";
     }
 }

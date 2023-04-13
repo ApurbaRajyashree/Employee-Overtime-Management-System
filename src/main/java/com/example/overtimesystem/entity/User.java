@@ -39,7 +39,7 @@ public class User {
     @Column(name = "designation", nullable = false, length = 20)
     private String designation;
 
-    @Column(name = "password", nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 200)
     private String password;
 
     @Column(name = "is_active")
