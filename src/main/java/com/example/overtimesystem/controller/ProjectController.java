@@ -52,4 +52,18 @@ public class ProjectController {
         return "redirect:/project?success";
     }
 
+    @RequestMapping(value = "/project/delete",method = RequestMethod.DELETE)
+    public String deleteProject(@ModelAttribute("project") ProjectDto projectDto, Model model) {
+        projectService.deleteProject(projectDto.getId());
+        return "project";
+    }
+
+    @RequestMapping(value = "/project/update",method = RequestMethod.PUT)
+    public String updateProject(@ModelAttribute("project") ProjectDto projectDto, Model model) {
+        projectService.updateProject(projectDto.getId(),projectDto);
+        return "project";
+    }
+
+
+
 }

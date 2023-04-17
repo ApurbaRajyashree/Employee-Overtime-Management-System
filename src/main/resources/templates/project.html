@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Project</title>
@@ -61,8 +61,8 @@
             </div>
         </div>
         <div th:if="${param.fail}">
-            <div class="alert alert-danger" >
-                <span th:text = "${error}"></span>
+            <div class="alert alert-danger">
+                <span th:text="${error}"></span>
             </div>
         </div>
         <div class="card-body">
@@ -115,5 +115,34 @@
 </div>
 <br/><br>
 
+<div class="container">
+    <div class="row col-md-10">
+        <h2>List of Projects</h2>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Project Name</th>
+            <th>Project Code</th>
+            <th>Estimated End Date</th>
+            <th>Department</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.projectName}"></td>
+            <td th:text="${project.projectCode}"></td>
+            <td th:text="${project.estimatedDueDate}"></td>
+            <td th:text="${project.department.departmentName}"></td>
+            <td>
+                <span th:action="@{/project/update}" method="put" th:object="${project}">update</span>
+                <span>/</span>
+                <span th:action="@{/project/delete}" method="delete" th:object="${project}">delete</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
