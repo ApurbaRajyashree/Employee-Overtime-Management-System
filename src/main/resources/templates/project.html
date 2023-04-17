@@ -1,10 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/dashboard}">Overtime System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="logout">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="department">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/department}">Department</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="project">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/project}">Project</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="users">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/users}">Users</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<div class="container">
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Add a Project</h2>
+        </div>
+        <div th:if="${param.success}">
+            <div class="alert alert-info">
+                You have successfully created a Project
+            </div>
+        </div>
+        <div th:if="${param.fail}">
+            <div class="alert alert-danger" >
+                <span th:text = "${error}"></span>
+            </div>
+        </div>
+        <div class="card-body">
+            <form class="row g-3"
+                  th:action="@{/project/create}"
+                  method="post"
+                  th:object="${project}">
+                <div class="col-md-6">
+                    <label for="inputProjectName" class="form-label">Project Name</label>
+                    <input type="text" class="form-control" id="inputProjectName" , th:field="*{projectName}">
+                    <p th:errors="*{projectName}" class="text-danger"
+                       th:if="${#fields.hasErrors('projectName')}"></p>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputProjectCode" class="form-label">Project Code</label>
+                    <input type="text" class="form-control" id="inputProjectCode" , th:field="*{projectCode}">
+                    <p th:errors="*{projectCode}" class="text-danger"
+                       th:if="${#fields.hasErrors('projectCode')}"></p>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputEstimateDate" class="form-label">Estimated End date</label>
+                    <input type="date" class="form-control" id="inputEstimateDate" , th:field="*{estimatedDueDate}">
+                    <p th:errors="*{estimatedDueDate}" class="text-danger"
+                       th:if="${#fields.hasErrors('estimatedDueDate')}"></p>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Department</label>
+                    <select
+                            id="inputDepartment"
+                            class="form-select" ,
+                            th:field="*{department}">
+                        <option value="0">select option</option>
+                        <option
+                                th:each="department : ${departments}"
+                                th:value="${department.id}"
+                                th:text="${department.departmentName}"></option>
+                    </select>
+                    <p th:errors="*{department}" class="text-danger"
+                       th:if="${#fields.hasErrors('department')}"></p>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br/><br>
 
 </body>
 </html>
