@@ -34,6 +34,8 @@ public class DepartmentController {
         model.addAttribute("department", new DepartmentDto());
         List<DepartmentDto> departments = departmentService.getAllDepartment();
         model.addAttribute("departments", departments);
+        List<UserDto> users=departmentService.getUserByDepartmentName(departmentDto.getDepartmentName());
+        model.addAttribute("users",users);
         return "department";
     }
 
@@ -60,4 +62,5 @@ public class DepartmentController {
         departmentService.deleteDepartment(departmentDto.getId());
         return "department";
     }
+
 }

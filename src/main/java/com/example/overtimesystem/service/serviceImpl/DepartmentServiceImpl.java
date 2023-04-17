@@ -1,8 +1,11 @@
 package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.DepartmentDto;
+import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.entity.Department;
+import com.example.overtimesystem.entity.User;
 import com.example.overtimesystem.repository.DepartmentRepository;
+import com.example.overtimesystem.repository.UserRepository;
 import com.example.overtimesystem.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
+
+    private final UserRepository userRepository;
 
     @Override
     public DepartmentDto createDepartment(DepartmentDto departmentDto) {
@@ -49,5 +54,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentDto> getAllDepartment() {
         List<Department> departments = departmentRepository.findAll();
         return departments.stream().map(DepartmentDto::new).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<UserDto> getUserByDepartmentName(String departmentName) {
+        List<User> userList=userRepository.findAllByDepartment_DepartmentName(departmentName);
+        return userList.stream().map(x->new UserDto(x)).collect(Collectors.toList());
     }
 }

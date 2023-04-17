@@ -92,14 +92,20 @@
         <thead class="table-dark">
         <tr>
             <th>Department Name</th>
+            <th>Department Member</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="department : ${departments}">
             <td  th:value="${department.id}" th:text="${department.departmentName}"></td>
+            <td></td>
+<!--            <td th:each="user : ${users}">-->
+<!--                <span th:text = "${user.fullName}"></span>-->
+<!--            </td>-->
             <td>
-                <span th:action="@{/department/delete}" method="delete" th:object="${department}">delete</span></td>
+                <span th:action="@{/department/delete}" method="delete" th:object="${department}">delete</span>
+            </td>
         </tr>
         </tbody>
     </table>
