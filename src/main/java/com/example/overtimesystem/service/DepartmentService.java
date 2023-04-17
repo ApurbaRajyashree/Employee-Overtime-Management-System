@@ -1,6 +1,7 @@
 package com.example.overtimesystem.service;
 
 import com.example.overtimesystem.dto.DepartmentDto;
+import com.example.overtimesystem.entity.Department;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface DepartmentService {
     String deleteDepartment(int id);
 
     List<DepartmentDto> getAllDepartment();
+
 }

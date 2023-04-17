@@ -3,17 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>Department</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 </head>
 <body>
-<h1>Add a Department</h1>
-<form class="row g-3" th:action="@{/department/create}" method="post" th:object="${department}">
-    <div class="col-md-6">
-        <label for="inputDepartmentName" class="form-label">Department Name</label>
-        <input type="text" class="form-control" id="inputDepartmentName", th:field="*{departmentName}">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/index}">Overtime System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="logout">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="department">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/department.html}">Department</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="users">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/users.html}">Users</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Sign in</button>
+</nav>
+<div class="container">
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Add a department</h2>
+        </div>
+        <div th:if="${param.success}">
+            <div class="alert alert-info">
+                You have successfully added a new Department!
+            </div>
+        </div>
+        <div th:if="${error}">
+            <div class="alert alert-danger" th:text = "${error.getMessage()}">
+                Department Name Already Exist
+            </div>
+        </div>
+        <div class="card-body">
+            <form class="row g-3"
+                  th:action="@{/department/create}"
+                  method="post"
+                  th:object="${department}">
+                <div class="col-md-6">
+                    <label for="inputDepartmentName" class="form-label">Department Name</label>
+                    <input type="text" class="form-control" id="inputDepartmentName" , th:field="*{departmentName}">
+                    <p th:errors="*{departmentName}" class="text-danger"
+                       th:if="${#fields.hasErrors('departmentName')}"></p>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
+<br/><br>
+
+<div class="container">
+    <div class="row col-md-10">
+        <h2>List of Departments</h2>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Department Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="department : ${departments}">
+            <td  th:value="${department.id}" th:text="${department.departmentName}"></td>
+            <td>
+                <span th:action="@{/department/delete}" method="delete" th:object="${department}">delete</span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

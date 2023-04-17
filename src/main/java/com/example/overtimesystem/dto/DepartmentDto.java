@@ -3,6 +3,7 @@ package com.example.overtimesystem.dto;
 import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.User;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 public class DepartmentDto {
     private int id;
+
+    @NotEmpty(message = "Department Name can not be empty")
     private String departmentName;
 
     private boolean isActive=true;
