@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,8 @@ public class DepartmentController {
     }
 
     @RequestMapping(value = "/department/create",method = RequestMethod.POST)
-    public String createDepartment(@Valid @ModelAttribute("department") DepartmentDto departmentDto,BindingResult result, Model model) {
+    public String createDepartment(@Valid @ModelAttribute("department") DepartmentDto departmentDto, BindingResult result, Model model,
+                                   RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             model.addAttribute("department", departmentDto);
@@ -46,8 +48,8 @@ public class DepartmentController {
         try {
             departmentService.createDepartment(departmentDto);
 
-        }catch (ResponseStatusException e){
-            model.addAttribute("error",e);
+        }catch (RuntimeException e){
+            redirectAttributes.addFlashAttribute("error",e.getMessage());
             return "redirect:/department?fail";
         }
         return "redirect:/department?success";

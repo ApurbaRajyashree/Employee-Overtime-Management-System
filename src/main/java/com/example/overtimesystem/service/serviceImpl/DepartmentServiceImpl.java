@@ -23,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<Department> departments=departmentRepository.findAll();
         for (Department eachDepartment:departments){
             if(eachDepartment.getDepartmentName().equalsIgnoreCase(department.getDepartmentName())){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Department Already Exist");
+                throw new RuntimeException("Department Already Exist");
             }
         }
         departmentRepository.save(department);
