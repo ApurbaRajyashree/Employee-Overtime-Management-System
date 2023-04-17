@@ -1,7 +1,9 @@
 package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.UserDto;
+import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.User;
+import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.UserRepository;
 import com.example.overtimesystem.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
+
+    private final DepartmentRepository departmentRepository;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -74,4 +78,5 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
         return "User has been successfully deleted";
     }
+
 }
