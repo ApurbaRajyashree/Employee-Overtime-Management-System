@@ -1,6 +1,7 @@
 package com.example.overtimesystem.dto;
 
 import com.example.overtimesystem.entity.Project;
+import com.example.overtimesystem.entity.ProjectMember;
 import com.example.overtimesystem.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -18,4 +19,11 @@ public class ProjectMemberDto {
     private boolean isLead;
     private User user;
     private Project project;
+
+    public ProjectMemberDto(ProjectMember projectMember) {
+        this.id = projectMember.getId();
+        this.user = projectMember.getUser();
+        this.project = projectMember.getProject();
+        this.isLead = projectMember.isLead();
+    }
 }
