@@ -1,0 +1,34 @@
+package com.example.overtimesystem.service.serviceImpl;
+
+import com.example.overtimesystem.dto.ProjectMemberDto;
+import com.example.overtimesystem.dto.UserDto;
+import com.example.overtimesystem.entity.Project;
+import com.example.overtimesystem.entity.ProjectMember;
+import com.example.overtimesystem.repository.ProjectMemberRepository;
+import com.example.overtimesystem.repository.ProjectRepository;
+import com.example.overtimesystem.service.ProjectMemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ProjectMemberServiceImpl implements ProjectMemberService {
+
+    private final ProjectMemberRepository projectMemberRepository;
+
+    private final ProjectRepository projectRepository;
+
+    @Override
+    public ProjectMemberDto addUserToProject(ProjectMemberDto projectMemberDto) {
+        Project project=projectRepository.findById(projectMemberDto.getProject().getId()).orElseThrow(
+                ()->new RuntimeException("Project does not exist!")
+        );
+        ProjectMember projectMember=new ProjectMember(projectMemberDto);
+       this.projectMemberRepository.save(projectMember);
+       return new ProjectMemberDto(projectMember);
+    }
+}
