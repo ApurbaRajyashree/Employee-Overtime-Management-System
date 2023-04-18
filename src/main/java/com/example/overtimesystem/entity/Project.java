@@ -1,6 +1,8 @@
 package com.example.overtimesystem.entity;
 
+import com.example.overtimesystem.dto.OverTimeDetailDto;
 import com.example.overtimesystem.dto.ProjectDto;
+import com.example.overtimesystem.dto.ProjectMemberDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -12,6 +14,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -57,9 +60,21 @@ public class Project {
         this.id = projectDto.getId();
         this.department = projectDto.getDepartment();
         this.projectCode = projectDto.getProjectCode();
-        ;
         this.projectName = projectDto.getProjectName();
         this.estimatedDueDate = projectDto.getEstimatedDueDate();
         this.isActive = projectDto.isActive();
+        List<ProjectMember> projectMemberList=new ArrayList<>();
+        for (ProjectMemberDto projectMemberDto:projectDto.getProjectMembers()){
+            ProjectMember projectMember=new ProjectMember(projectMemberDto);
+            projectMemberList.add(projectMember);
+        }
+        this.projectMembers=projectMemberList;
+
+        List<OverTimeDetail> overTimeDetailList1=new ArrayList<>();
+        for (OverTimeDetailDto overTimeDetailDto:projectDto.getOverTimeDetailList()){
+            OverTimeDetail overTimeDetail=new OverTimeDetail(overTimeDetailDto);
+            overTimeDetailList1.add(overTimeDetail);
+        }
+        this.overTimeDetailList=overTimeDetailList1;
     }
 }

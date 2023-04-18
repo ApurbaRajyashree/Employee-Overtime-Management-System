@@ -1,6 +1,8 @@
 package com.example.overtimesystem.entity;
 
 
+import com.example.overtimesystem.dto.OverTimeDetailDto;
+import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,4 +43,14 @@ public class OverTimeDetail {
     @JoinColumn(name = "over_time_master_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "over_time_master")
     private OverTimeMaster overTimeMaster;
+
+    public OverTimeDetail (OverTimeDetailDto overTimeDetailDto){
+        this.id=overTimeDetailDto.getId();
+        this.project=overTimeDetailDto.getProject();
+        this.logs=overTimeDetailDto.getLogs();
+        this.date=overTimeDetailDto.getDate();
+        this.startTime=overTimeDetailDto.getStartTime();
+        this.endTime=overTimeDetailDto.getEndTime();
+        this.overTimeMaster=overTimeDetailDto.getOverTimeMaster();
+    }
 }

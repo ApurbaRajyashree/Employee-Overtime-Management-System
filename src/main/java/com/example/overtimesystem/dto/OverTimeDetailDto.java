@@ -1,5 +1,6 @@
 package com.example.overtimesystem.dto;
 
+import com.example.overtimesystem.entity.OverTimeDetail;
 import com.example.overtimesystem.entity.OverTimeMaster;
 import com.example.overtimesystem.entity.Project;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,4 +25,14 @@ public class OverTimeDetailDto {
     private Time endTime;
     private Project project;
     private OverTimeMaster overTimeMaster;
+
+    public OverTimeDetailDto (OverTimeDetail overTimeDetail){
+        this.id=overTimeDetail.getId();
+        this.project=overTimeDetail.getProject();
+        this.logs=overTimeDetail.getLogs();
+        this.date=overTimeDetail.getDate();
+        this.startTime=overTimeDetail.getStartTime();
+        this.endTime=overTimeDetail.getEndTime();
+        this.overTimeMaster=overTimeDetail.getOverTimeMaster();
+    }
 }
