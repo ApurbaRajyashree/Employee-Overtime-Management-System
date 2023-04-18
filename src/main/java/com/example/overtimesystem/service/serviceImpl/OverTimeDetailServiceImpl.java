@@ -15,9 +15,10 @@ import java.util.stream.Collectors;
 public class OverTimeDetailServiceImpl implements OverTimeDetailService {
 
     private final OverTimeDetailRepository overTimeDetailRepository;
+
     @Override
     public OverTimeDetailDto createOverTimeDetail(OverTimeDetailDto overTimeDetailDto) {
-        OverTimeDetail overTimeDetail=new OverTimeDetail(overTimeDetailDto);
+        OverTimeDetail overTimeDetail = new OverTimeDetail(overTimeDetailDto);
         overTimeDetailRepository.save(overTimeDetail);
         return new OverTimeDetailDto(overTimeDetail);
     }
@@ -29,7 +30,7 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
 
     @Override
     public List<OverTimeDetailDto> getAll() {
-        List<OverTimeDetail> overTimeDetailList=this.overTimeDetailRepository.findAll();
-        return overTimeDetailList.stream().map(x->new OverTimeDetailDto(x)).collect(Collectors.toList());
+        List<OverTimeDetail> overTimeDetailList = this.overTimeDetailRepository.findAll();
+        return overTimeDetailList.stream().map(x -> new OverTimeDetailDto(x)).collect(Collectors.toList());
     }
 }
