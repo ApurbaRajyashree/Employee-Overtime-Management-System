@@ -7,6 +7,9 @@ import com.example.overtimesystem.service.OverTimeDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class OverTimeDetailServiceImpl implements OverTimeDetailService {
@@ -22,5 +25,11 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
     @Override
     public String deleteOverTimeDetail(int id) {
         return null;
+    }
+
+    @Override
+    public List<OverTimeDetailDto> getAll() {
+        List<OverTimeDetail> overTimeDetailList=this.overTimeDetailRepository.findAll();
+        return overTimeDetailList.stream().map(x->new OverTimeDetailDto(x)).collect(Collectors.toList());
     }
 }
