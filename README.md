@@ -7,8 +7,8 @@ The system will be used by the usersto maintain their overtime work record. The 
 Installation and versions:
 IntelliJ IDEA 2022.3.2 (Ultimate Edition)
 Java - Ver 8
-MySql - Ver 8.0.32
+postgres (PostgreSQL) - Ver 15.1
 Spring boot - Ver 3.0.5
 
-Database Name: overtimesystem
+Database Name: overtime_system
 Port: 8090
