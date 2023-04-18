@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +25,14 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public ProjectMemberDto addUserToProject(ProjectMemberDto projectMemberDto) {
-        Project project=projectRepository.findById(projectMemberDto.getProject().getId()).orElseThrow(
-                ()->new RuntimeException("Project does not exist!")
-        );
-        ProjectMember projectMember=new ProjectMember(projectMemberDto);
+       ProjectMember projectMember=new ProjectMember(projectMemberDto);
        this.projectMemberRepository.save(projectMember);
        return new ProjectMemberDto(projectMember);
+    }
+
+    @Override
+    public List<ProjectMemberDto> getAllProjectMembers() {
+        List<ProjectMember> projectMembers=this.projectMemberRepository.findAll();
+        return projectMembers.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
     }
 }

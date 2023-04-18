@@ -37,18 +37,18 @@ public class ProjectDto {
         this.projectName = project.getProjectName();
         this.estimatedDueDate = project.getEstimatedDueDate();
         this.isActive = project.isActive();
-        List<ProjectMemberDto> projectMemberDtoList=new ArrayList<>();
-        for (ProjectMember projectMember:project.getProjectMembers()){
-            ProjectMemberDto projectMemberDto=new ProjectMemberDto(projectMember);
-            projectMemberDtoList.add(projectMemberDto);
-        }
-        this.projectMembers=projectMemberDtoList;
-
-        List<OverTimeDetailDto> overTimeDetailDtos=new ArrayList<>();
-        for (OverTimeDetail overTimeDetail:project.getOverTimeDetailList()){
-            OverTimeDetailDto overTimeDetailDto=new OverTimeDetailDto(overTimeDetail);
-            overTimeDetailDtos.add(overTimeDetailDto);
-        }
-        this.overTimeDetailList=overTimeDetailDtos;
+//        List<ProjectMemberDto> projectMemberDtoList=new ArrayList<>();
+//        for (ProjectMember projectMember:project.getProjectMembers()){
+//            ProjectMemberDto projectMemberDto=new ProjectMemberDto(projectMember);
+//            projectMemberDtoList.add(projectMemberDto);
+//        }
+//        this.projectMembers=projectMemberDtoList;
+//
+//        List<OverTimeDetailDto> overTimeDetailDtos=new ArrayList<>();
+//        for (OverTimeDetail overTimeDetail:project.getOverTimeDetailList()){
+//            OverTimeDetailDto overTimeDetailDto=new OverTimeDetailDto(overTimeDetail);
+//            overTimeDetailDtos.add(overTimeDetailDto);
+//        }
+//        this.overTimeDetailList=overTimeDetailDtos;
     }
 }

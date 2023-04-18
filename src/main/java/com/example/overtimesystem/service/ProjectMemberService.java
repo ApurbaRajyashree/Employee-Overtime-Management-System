@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ProjectMemberService {
     ProjectMemberDto addUserToProject(ProjectMemberDto projectMemberDto);
+
+    List<ProjectMemberDto> getAllProjectMembers();
 }
