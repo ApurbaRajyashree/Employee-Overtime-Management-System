@@ -1,5 +1,6 @@
 package com.example.overtimesystem.entity;
 
+import com.example.overtimesystem.dto.ProjectMemberDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,4 +32,11 @@ public class ProjectMember {
     @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "project")
     private Project project;
+
+    public ProjectMember(ProjectMemberDto projectMemberDto) {
+        this.id = projectMemberDto.getId();
+        this.user = projectMemberDto.getUser();
+        this.project = projectMemberDto.getProject();
+        this.isLead = projectMemberDto.isLead();
+    }
 }
