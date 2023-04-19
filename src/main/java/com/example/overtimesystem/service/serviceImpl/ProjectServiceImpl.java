@@ -36,13 +36,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectDto getProjectByProjectCode(String code) {
-        Project project = projectRepository.findByProjectCode(code);
-        if (project != null) {
-            return new ProjectDto(project);
-        } else {
-            throw new RuntimeException("Invalid code");
-        }
+    public ProjectDto getProjectByProjectId(int id) {
+        Project project = projectRepository.findById(id).orElseThrow(
+                ()->new RuntimeException("Project doesnot exist!")
+        );
+        return new ProjectDto(project);
     }
 
     @Override

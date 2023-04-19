@@ -10,7 +10,7 @@ public interface ProjectService {
 
     ProjectDto updateProject(int id, ProjectDto projectDto);
 
-    ProjectDto getProjectByProjectCode(String code);
+    ProjectDto getProjectByProjectId(int id);
 
     List<ProjectDto> getAllProjects();
 

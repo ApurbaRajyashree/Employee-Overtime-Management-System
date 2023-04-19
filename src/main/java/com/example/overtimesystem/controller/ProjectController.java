@@ -2,6 +2,7 @@ package com.example.overtimesystem.controller;
 
 import com.example.overtimesystem.dto.DepartmentDto;
 import com.example.overtimesystem.dto.ProjectDto;
+import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.service.DepartmentService;
 import com.example.overtimesystem.service.ProjectService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 
 @Controller
@@ -57,30 +59,24 @@ public class ProjectController {
     public String deleteProject(@ModelAttribute("project") ProjectDto projectDto,
                                 @PathVariable int id,Model model) {
         projectService.deleteProject(id);
-        return "redirect:/project";
+        return "project";
     }
 
-    @RequestMapping(value = "/project/update/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/project/update/{id}",method = RequestMethod.POST)
     public String updateProject(@ModelAttribute("project") ProjectDto projectDto,
                                 @PathVariable("id")int id, Model model,
                                 RedirectAttributes redirectAttributes) {
+        model.addAttribute("projectDto", new ProjectDto());
+        model.addAttribute("departments", departmentService.getAllDepartment());
+        List<ProjectDto> projects = projectService.getAllProjects();
+        model.addAttribute("projects", projects);
+        model.addAttribute("project",projectService.getProjectByProjectId(id));
        try
        {projectService.updateProject(id,projectDto);
        }catch (RuntimeException e){
            redirectAttributes.addFlashAttribute("message",e.getMessage());
        }
-        return "redirect:/project";
+        return "project";
     }
-
-    @RequestMapping(value = "/updatepopup" , method = RequestMethod.GET)
-    public String updateProjectPopUp(Model model, ProjectDto projectDto) {
-        model.addAttribute("project", new ProjectDto());
-        model.addAttribute("departments", departmentService.getAllDepartment());
-        List<ProjectDto> projects = projectService.getAllProjects();
-        model.addAttribute("projects", projects);
-        return "updatepopup";
-    }
-
-
 
 }

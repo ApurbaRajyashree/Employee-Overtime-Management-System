@@ -225,11 +225,85 @@
             <td th:text="${project.projectCode}"></td>
             <td th:text="${project.estimatedDueDate}"></td>
             <td th:text="${project.department.departmentName}"></td>
-            <td>
-                <!--                <button class="open-button"  th:href="@{'/project/update' + ${project.id}}" method="put" th:object="${project}" onclick="openForm()">update</button>-->
-                <a th:href="@{'/project/update' + ${project.id}}" th:target="_blank">
-                    <button type="button" class="btn btn-primary">Edit</button>
-                </a>
+            <td><button type="button" class="btn btn-primary"
+                        onclick="document.getElementById('id02').style.display='block'"
+                        th:href="@{'/project/update' + ${project.getId()}}">Update
+                </button>
+                <div id="id02" class="modal">
+     <span onclick="document.getElementById('id02').style.display='none'" class="close"
+           title="Close Modal">&times;</span>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="text-center">Update Project</h2>
+                        </div>
+                        <div th:if="${param.success}">
+                            <div class="alert alert-info">
+                                You have successfully updated the Project
+                            </div>
+                        </div>
+                        <div th:if="${param.fail}">
+                            <div class="alert alert-danger">
+                                <span th:text="${error}"></span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form class="row g-3"
+                                  id="updatePopUpForm"
+                                  th:action="@{|/project/update/*{id}|}"
+                                  method="post"
+                                  th:object="${project}">
+                                <div class="col-md-6">
+                                    <label for="updateProjectName" class="form-label">Project Name</label>
+                                    <input type="text" class="form-control" id="updateProjectName"
+                                           th:value="${project.projectName}">
+                                    <p th:errors="*{projectName}" class="text-danger"
+                                       th:if="${#fields.hasErrors('projectName')}"></p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="updateProjectCode" class="form-label">Project Code</label>
+                                    <input type="text" class="form-control" id="updateProjectCode"
+                                           th:value="${project.projectCode}">
+                                    <p th:errors="*{projectCode}" class="text-danger"
+                                       th:if="${#fields.hasErrors('projectCode')}"></p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="updateEstimateDate" class="form-label">Estimated End date</label>
+                                    <input type="date" class="form-control" id="updateEstimateDate"
+                                           th:value="${project.estimatedDueDate}">
+                                    <p th:errors="*{estimatedDueDate}" class="text-danger"
+                                       th:if="${#fields.hasErrors('estimatedDueDate')}"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Department</label>
+                                    <select
+                                            th:defaultvalue="${project.department.getDepartmentName()}"
+                                            id="updateDepartment"
+                                            class="form-select"
+                                            th:field="*{department}">
+                                        <option value="0">select option</option>
+                                        <option
+                                                th:each="department : ${departments}"
+                                                th:value="${department.id}"
+                                            th:text="${department.departmentName}"
+                                        >
+                                        </option>
+                                    </select>
+                                    <p th:errors="*{department}" class="text-danger"
+                                       th:if="${#fields.hasErrors('department')}"></p>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary" th:id="${project.getId()}"
+                                            onclick="$(this).submit()">Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
 
                 <span>/</span>
                 <button type="button" class="btn btn-primary"
@@ -241,7 +315,6 @@
                     <span onclick="document.getElementById('id01').style.display='none'" class="close"
                           title="Close Modal">&times;</span>
                     <form class="modal-content"
-                          action="/action_page.php"
                           th:action="@{|/project/delete/*{id}|}"
                           method="get"
                           th:object="${project}"
@@ -250,8 +323,9 @@
                             <h1>Delete Project</h1>
                             <p>Are you sure you want to delete ?</p>
                             <div class="clearfix">
-                                <button type="button" class="cancelbtn">Cancel</button>
-                                <button type="submit" class="deletebtn" th:id="${project.id}" onclick="$(this).submit()">Delete</button>
+                                <button type="submit" class="deletebtn" th:id="${project.id}"
+                                        onclick="$(this).submit()">Delete
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -265,7 +339,6 @@
     </table>
     <a th:href="@{/project-member}" class="btn btn-info" role="button">Add member</a>
 </div>
-<script src="js/updateprojectpopup.js"></script>
 <script>
 
     // Get the modal
@@ -275,6 +348,14 @@
     window.onclick = function (event) {
         if (event.target === modal) {
             modal.style.display = "none";
+        }
+    }
+
+    var modal2 = document.getElementById('id02');
+
+    window.onclick = function (event) {
+        if (event.target === modal2) {
+            modal2.style.display = "none";
         }
     }
 
