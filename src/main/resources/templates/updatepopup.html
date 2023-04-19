@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="popup">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Update Project</h2>
+        </div>
+        <div th:if="${param.success}">
+            <div class="alert alert-info">
+                You have successfully updated the Project
+            </div>
+        </div>
+        <div th:if="${param.fail}">
+            <div class="alert alert-danger">
+                <span th:text="${error}"></span>
+            </div>
+        </div>
+        <div class="card-body">
+            <form class="row g-3"
+                  id="updatePopUpForm"
+                  th:action="@{/project/update}"
+                  method="post"
+                  th:object="${project}">
+                <div class="col-md-6">
+                    <label for="updateProjectName" class="form-label">Project Name</label>
+                    <input type="text" class="form-control" id="updateProjectName" > <!--th:field="*{projectName}-->"
+                    th:value="${project.projectName}">
+                    <p th:errors="*{projectName}" class="text-danger"
+                       th:if="${#fields.hasErrors('projectName')}"></p>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="updateProjectCode" class="form-label">Project Code</label>
+                    <input type="text" class="form-control" id="updateProjectCode"  th:field="*{projectCode}">
+                    <p th:errors="*{projectCode}" class="text-danger"
+                       th:if="${#fields.hasErrors('projectCode')}"></p>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="updateEstimateDate" class="form-label">Estimated End date</label>
+                    <input type="date" class="form-control" id="updateEstimateDate"  th:field="*{estimatedDueDate}">
+                    <p th:errors="*{estimatedDueDate}" class="text-danger"
+                       th:if="${#fields.hasErrors('estimatedDueDate')}"></p>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Department</label>
+                    <select
+                            id="updateDepartment"
+                            class="form-select"
+                            th:field="*{department}">
+                        <option value="0">select option</option>
+                        <option
+                                th:each="department : ${departments}"
+                                th:value="${department.id}"
+                                th:text="${department.departmentName}"></option>
+                    </select>
+                    <p th:errors="*{department}" class="text-danger"
+                       th:if="${#fields.hasErrors('department')}"></p>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="js/updateprojectpopup.js"></script>
+</body>
+</html>

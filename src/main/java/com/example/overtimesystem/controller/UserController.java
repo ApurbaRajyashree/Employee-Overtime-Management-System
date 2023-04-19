@@ -48,9 +48,9 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping(value = "dashboard")
-    public ModelMap mmDashboard() {
-        return new ModelMap();
-    }
+//    @GetMapping(value = "dashboard")
+//    public ModelMap mmDashboard() {
+//        return new ModelMap();
+//    }
 
 }

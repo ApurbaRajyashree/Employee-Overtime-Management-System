@@ -7,6 +7,96 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        button:hover {
+            opacity: 1;
+        }
+
+        /* Float cancel and delete buttons and add an equal width */
+        .cancelbtn, .deletebtn {
+            float: left;
+            width: 50%;
+        }
+
+        /* Add a color to the cancel button */
+        .cancelbtn {
+            background-color: #ccc;
+            color: black;
+        }
+
+        /* Add a color to the delete button */
+        .deletebtn {
+            background-color: #f44336;
+        }
+
+        /* Add padding and center-align text to the container */
+        .container {
+            padding: 16px;
+            text-align: center;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: #474e5d;
+            padding-top: 50px;
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* Style the horizontal ruler */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* The Modal Close Button (x) */
+        .close {
+            position: absolute;
+            right: 35px;
+            top: 15px;
+            font-size: 40px;
+            font-weight: bold;
+            color: #f1f1f1;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #f44336;
+            cursor: pointer;
+        }
+
+        /* Clear floats */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Change styles for cancel button and delete button on extra small screens */
+        @media screen and (max-width: 300px) {
+            .cancelbtn, .deletebtn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -72,21 +162,21 @@
                   th:object="${project}">
                 <div class="col-md-6">
                     <label for="inputProjectName" class="form-label">Project Name</label>
-                    <input type="text" class="form-control" id="inputProjectName" , th:field="*{projectName}">
+                    <input type="text" class="form-control" id="inputProjectName" th:field="*{projectName}">
                     <p th:errors="*{projectName}" class="text-danger"
                        th:if="${#fields.hasErrors('projectName')}"></p>
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputProjectCode" class="form-label">Project Code</label>
-                    <input type="text" class="form-control" id="inputProjectCode" , th:field="*{projectCode}">
+                    <input type="text" class="form-control" id="inputProjectCode" th:field="*{projectCode}">
                     <p th:errors="*{projectCode}" class="text-danger"
                        th:if="${#fields.hasErrors('projectCode')}"></p>
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputEstimateDate" class="form-label">Estimated End date</label>
-                    <input type="date" class="form-control" id="inputEstimateDate" , th:field="*{estimatedDueDate}">
+                    <input type="date" class="form-control" id="inputEstimateDate" th:field="*{estimatedDueDate}">
                     <p th:errors="*{estimatedDueDate}" class="text-danger"
                        th:if="${#fields.hasErrors('estimatedDueDate')}"></p>
                 </div>
@@ -94,7 +184,7 @@
                     <label class="form-label">Department</label>
                     <select
                             id="inputDepartment"
-                            class="form-select" ,
+                            class="form-select"
                             th:field="*{department}">
                         <option value="0">select option</option>
                         <option
@@ -136,14 +226,58 @@
             <td th:text="${project.estimatedDueDate}"></td>
             <td th:text="${project.department.departmentName}"></td>
             <td>
-                <span th:action="@{/project/update}" method="put" th:object="${project}">update</span>
+                <!--                <button class="open-button"  th:href="@{'/project/update' + ${project.id}}" method="put" th:object="${project}" onclick="openForm()">update</button>-->
+                <a th:href="@{'/project/update' + ${project.id}}" th:target="_blank">
+                    <button type="button" class="btn btn-primary">Edit</button>
+                </a>
+
                 <span>/</span>
-                <span th:action="@{/project/delete}" method="delete" th:object="${project}">delete</span>
+                <button type="button" class="btn btn-primary"
+                        onclick="document.getElementById('id01').style.display='block'"
+                        th:href="@{'/project/delete' + ${project.id}}">Delete
+                </button>
+
+                <div id="id01" class="modal">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                          title="Close Modal">&times;</span>
+                    <form class="modal-content"
+                          action="/action_page.php"
+                          th:action="@{|/project/delete/*{id}|}"
+                          method="get"
+                          th:object="${project}"
+                    >
+                        <div class="container">
+                            <h1>Delete Project</h1>
+                            <p>Are you sure you want to delete ?</p>
+                            <div class="clearfix">
+                                <button type="button" class="cancelbtn">Cancel</button>
+                                <button type="submit" class="deletebtn" th:id="${project.id}" onclick="$(this).submit()">Delete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--                <a th:href="@{'/project/delete' + ${project.id}}" method="delete" th:object="${project}">delete</a>-->
             </td>
         </tr>
+
+
         </tbody>
     </table>
     <a th:href="@{/project-member}" class="btn btn-info" role="button">Add member</a>
 </div>
+<script src="js/updateprojectpopup.js"></script>
+<script>
+
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>
 </body>
 </html>
