@@ -18,7 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_mobile_number", columnNames = {"mobile_number"}),
+        @UniqueConstraint(name = "uk_email", columnNames = {"email"})
+})
 @SQLDelete(sql = "UPDATE User u SET u.isActive=false where u.id=?")
 @Where(clause = "is_active=true")
 public class User {
@@ -27,13 +30,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "email", nullable = false, length = 50, unique = true)
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
 
     @Column(name = "full_name", nullable = false, length = 50)
     private String fullName;
 
-    @Column(name = "mobile_number", nullable = false, length = 13, unique = true)
+    @Column(name = "mobile_number", nullable = false, length = 13)
     private String mobileNumber;
 
     @Column(name = "designation", nullable = false, length = 20)
@@ -53,11 +56,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference(value = "over_time_master")
     private List<OverTimeMaster> overTimeMasterList;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference(value = "project_member")
     private List<ProjectMember> projectMemberList;
 

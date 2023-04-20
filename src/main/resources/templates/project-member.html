@@ -142,9 +142,9 @@
                        th:if="${#fields.hasErrors('user')}"></p>
                 </div>
 
-                <div class="form-check">
-                    <input type="hidden" name="isLead" value="0">
-                    <input type="checkbox" name="isLead" id="isLead" th:value="${true}">
+                <div class="form-radio">
+<!--                    <input type="hidden" name="isLead" value="0">-->
+                    <input type="radio" name="isLead" id="isLead" value="1" th:checked="${isLead == 1} ? ${true}">
                     <label class="form-check-label" for="isLead">
                        is Lead?
                     </label>

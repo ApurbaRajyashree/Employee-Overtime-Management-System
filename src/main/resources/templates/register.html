@@ -9,22 +9,6 @@
           crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Overtime System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 <br/><br/><br/>
 <div class="container">
     <div class="row col-md-8 offset-md-2">
@@ -37,10 +21,17 @@
                     You have successfully registered our app!
                 </div>
             </div>
+            <div th:if="${param.fail}">
+                <div class="alert alert-danger" >
+                    <span th:text="${error}"></span>
+                </div>
+            </div>
             <div class="card-body">
                 <form
+                        name="registration"
                         method="post"
                         role="form"
+                        onsubmit="return validateform()"
                         th:action="@{/register/save}"
                         th:object="${user}"
                 >
@@ -53,6 +44,7 @@
                                 placeholder="Enter full name"
                                 th:field="*{fullName}"
                                 type="text"
+                                required
                         />
                         <p th:errors="*{fullName}" class="text-danger"
                            th:if="${#fields.hasErrors('fullName')}"></p>
@@ -67,9 +59,11 @@
                                 placeholder="Enter Mobile Number"
                                 th:field="*{mobileNumber}"
                                 type="text"
+                                required
                         />
-                        <p th:errors="*{mobileNumber}" class="text-danger"
-                           th:if="${#fields.hasErrors('mobileNumber')}"></p>
+                        <p th:if="${requestError!=null}"
+                           th:text="${requestError['mobileNumber']}"
+                           class="text-danger"></p>
                     </div>
 
                     <div class="form-group mb-3">
@@ -81,9 +75,11 @@
                                 placeholder="Enter Mobile Number"
                                 th:field="*{designation}"
                                 type="text"
+                                required
                         />
-                        <p th:errors="*{designation}" class="text-danger"
-                           th:if="${#fields.hasErrors('designation')}"></p>
+                        <p th:if="${requestError!=null}"
+                        th:text="${requestError['designation']}"
+                        class="text-danger"></p>
                     </div>
 
 
@@ -96,6 +92,7 @@
                                 placeholder="Enter email address"
                                 th:field="*{email}"
                                 type="email"
+                                required
                         />
                         <p th:errors="*{email}" class="text-danger"
                            th:if="${#fields.hasErrors('email')}"></p>
@@ -106,28 +103,17 @@
                         <select
                                 id="inputDepartment"
                                 class="form-select" ,
-                                th:field="*{department}">
+                                th:field="*{department}"
+                                required>
                             <option value="0">select option</option>
                             <option
                                     th:each="department : ${departments}"
                                     th:value="${department.id}"
                                     th:text="${department.departmentName}"></option>
                         </select>
-                        <p th:errors="*{department}" class="text-danger"
-                           th:if="${#fields.hasErrors('department')}"></p>
-                    </div>
+                        <p th:if="${requestError!=null}" class="text-danger"
+                           th:text="${requestError['department']}"></p>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label">Role: </label>
-                        <select
-                                id="inputRole"
-                                name="role">
-                            <option th:each="role : ${T(com.example.overtimesystem.entity.Role).values()}"
-                                    th:value="${role}"
-                                    th:text="${role}"></option>
-                        </select>
-                        <p th:errors="*{role}" class="text-danger"
-                           th:if="${#fields.hasErrors('role')}"></p>
                     </div>
 
                     <div class="form-group mb-3">
@@ -139,6 +125,7 @@
                                 placeholder="Enter password"
                                 th:field="*{password}"
                                 type="password"
+                                required
                         />
                         <p th:errors="*{password}" class="text-danger"
                            th:if="${#fields.hasErrors('password')}"></p>
@@ -154,5 +141,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    function validateform(){
+        var num=document.registration.mobileNumber.value;
+        var phoneno = /^\d{10}$/;
+        if(num.value.match(phoneno))
+        {
+            return true;
+        }
+        else
+        {
+            alert("Please enter valid Mobile Number");
+            return false;
+        }
+
+        var x=document.registration.email.value;
+        var atposition=x.indexOf("@");
+        var dotposition=x.lastIndexOf(".");
+        if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){
+            alert("Please enter a valid e-mail address");
+            return false;
+        } else{
+            return true;
+        }
+    }
+</script>
 </body>
 </html>

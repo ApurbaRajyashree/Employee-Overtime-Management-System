@@ -10,12 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-    @GetMapping("/index")
-    public String openMainPage() {
-        return "index";
-    }
-
-
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -24,5 +18,11 @@ public class MainController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@ModelAttribute UserDto login) {
         return "dashboard";
+    }
+
+    @GetMapping("/fragments")
+    public String getHome() {
+        return "/fragments";
+
     }
 }
