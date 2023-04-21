@@ -1,6 +1,7 @@
 package com.example.overtimesystem.controller;
 
 import com.example.overtimesystem.dto.DepartmentDto;
+import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.service.DepartmentService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,8 +31,8 @@ public class DepartmentController {
         model.addAttribute("department", new DepartmentDto());
         List<DepartmentDto> departments = departmentService.getAllDepartment();
         model.addAttribute("departments", departments);
-        List<UserDto> users=departmentService.getUserByDepartmentName(departmentDto.getDepartmentName());
-        model.addAttribute("users",users);
+//        List<UserDto> users=departmentService.getUserByDepartmentName(departmentDto.getDepartmentName());
+//        model.addAttribute("users",users);
         return "department";
     }
 
@@ -51,10 +53,19 @@ public class DepartmentController {
         return "redirect:/department?success";
     }
 
-    @RequestMapping(value = "/department/delete",method = RequestMethod.DELETE)
-    public String deleteDepartment(@ModelAttribute("department") DepartmentDto departmentDto, Model model) {
-        departmentService.deleteDepartment(departmentDto.getId());
+    @RequestMapping(value = "/department/delete/{id}",method = RequestMethod.GET)
+    public String deleteDepartment(@ModelAttribute("department") DepartmentDto departmentDto,
+                                   @PathVariable("id") int id, Model model) {
+        departmentService.deleteDepartment(id);
         return "department";
     }
+//
+//
+//    @RequestMapping(value = "/project/delete/{id}", method = RequestMethod.GET)
+//    public String deleteProject(@ModelAttribute("project") ProjectDto projectDto,
+//                                @PathVariable int id, Model model) {
+//        projectService.deleteProject(id);
+//        return "redirect:/project";
+//    }
 
 }

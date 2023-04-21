@@ -26,7 +26,7 @@ public class ProjectMemberController {
     private final DepartmentService departmentService;
 
     @RequestMapping(value = "/project-member", method = RequestMethod.GET)
-    public String projectMember(Model model, ProjectMemberDto projectMemberDto/*, ProjectDto projectDto*/) {
+    public String projectMember(Model model, ProjectMemberDto projectMemberDto) {
         model.addAttribute("projectMember", new ProjectMemberDto());
 
         model.addAttribute("projects", projectService.getAllProjects());

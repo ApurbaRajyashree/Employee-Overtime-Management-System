@@ -69,7 +69,7 @@
         <td th:text="${projectMember.user.fullName}"></td>
         <td th:text="${projectMember.isLead}"></td>
         <td>
-            <span th:action="@{/project-member/remove}" method="delete" th:object="${projectMember}">remove</span>
+            <a th:action="@{/project-member/remove}" method="get" th:object="${projectMember}">remove</a>
         </td>
     </tr>
 

@@ -2,7 +2,6 @@ package com.example.overtimesystem.controller;
 
 import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.entity.Project;
-import com.example.overtimesystem.helper.Message;
 import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.ProjectRepository;
 import com.example.overtimesystem.service.DepartmentService;
@@ -83,10 +82,10 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/project/update", method = RequestMethod.POST)
-    public String processUpdateProject(@ModelAttribute("project")Project project,
+    public String processUpdateProject(@ModelAttribute("project")ProjectDto project,
                                        HttpSession session,Model model){
 
-        projectRepository.save(project);
+        projectService.updateProject(project.getId(),project);
         session.setAttribute("message","Project updated successfully");
         return "redirect:/project";
     }

@@ -71,7 +71,7 @@
                   th:object="${department}">
                 <div class="col-md-6">
                     <label for="inputDepartmentName" class="form-label">Department Name</label>
-                    <input type="text" class="form-control" id="inputDepartmentName" , th:field="*{departmentName}">
+                    <input type="text" class="form-control" id="inputDepartmentName" , th:field="*{departmentName}" required>
                     <p th:errors="*{departmentName}" class="text-danger"
                        th:if="${#fields.hasErrors('departmentName')}"></p>
                 </div>
@@ -92,23 +92,51 @@
         <thead class="table-dark">
         <tr>
             <th>Department Name</th>
-            <th>Department Member</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="department : ${departments}">
             <td  th:value="${department.id}" th:text="${department.departmentName}"></td>
-            <td></td>
-<!--            <td th:each="user : ${users}">-->
-<!--                <span th:text = "${user.fullName}"></span>-->
-<!--            </td>-->
             <td>
-                <span th:action="@{/department/delete}" method="delete" th:object="${department}">delete</span>
+                <button type="button" class="btn btn-danger" id="delete-department"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        th:value="${department.id}">Delete
+                </button>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+
+<script>
+
+    document.getElementById("delete-department").addEventListener("click", loadProjectId)
+
+    function loadProjectId(){
+        const attribute = document.getElementById("delete-department").value;
+        const deleteLink = "/department/delete/"+attribute;
+        document.getElementById("delete-link").href=deleteLink;
+    }
+
+</script>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" id="delete-link"> <button type="button" class="btn btn-primary" value="">Delete</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </body>
 </html>

@@ -72,6 +72,7 @@
               th:action="@{/project/update}"
               method="post"
               th:object="${project}">
+            <input type="text" hidden th:field="*{id}" th:value="${project.id}">
             <div class="col-md-6">
                 <label for="updateProjectName" class="form-label">Project Name</label>
                 <input type="text" class="form-control" id="updateProjectName" name="projectName"

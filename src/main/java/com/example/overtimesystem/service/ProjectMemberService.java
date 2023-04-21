@@ -10,4 +10,6 @@ public interface ProjectMemberService {
     ProjectMemberDto addUserToProject(ProjectMemberDto projectMemberDto);
 
     List<ProjectMemberDto> getAllProjectMembers();
+
+    List<ProjectMemberDto> getAllProjectMemberByProjectId(int id);
 }

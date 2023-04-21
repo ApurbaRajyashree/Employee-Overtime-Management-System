@@ -35,4 +35,13 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         List<ProjectMember> projectMembers=this.projectMemberRepository.findAll();
         return projectMembers.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ProjectMemberDto> getAllProjectMemberByProjectId(int id) {
+        Project project = projectRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Project doesnot exist!")
+        );
+        List<ProjectMember> projectMemberList = projectMemberRepository.findAllProjectMemberByProjectId(id);
+        return projectMemberList.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
+    }
 }
