@@ -1,19 +1,14 @@
 package com.example.overtimesystem.dto;
 
 import com.example.overtimesystem.entity.Department;
-import com.example.overtimesystem.entity.OverTimeDetail;
 import com.example.overtimesystem.entity.Project;
-import com.example.overtimesystem.entity.ProjectMember;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,6 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 public class ProjectDto {
     private int id;
+
+    @NotBlank(message = "Project Name cannot be blank")
     private String projectName;
     private String projectCode;
     private Date estimatedDueDate;

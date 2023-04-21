@@ -2,6 +2,7 @@ package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.entity.Project;
+import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.ProjectRepository;
 import com.example.overtimesystem.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
 
+    private final DepartmentRepository departmentRepository;
     @Override
     public ProjectDto createProject(ProjectDto projectDto) {
         Project project = new Project(projectDto);
+        if (project.getDepartment() == null) {
+            throw new RuntimeException("Department should be selected");
+        }
         projectRepository.save(project);
         return new ProjectDto(project);
     }
@@ -38,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto getProjectByProjectId(int id) {
         Project project = projectRepository.findById(id).orElseThrow(
-                ()->new RuntimeException("Project doesnot exist!")
+                () -> new RuntimeException("Project doesnot exist!")
         );
         return new ProjectDto(project);
     }

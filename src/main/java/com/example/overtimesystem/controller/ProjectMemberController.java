@@ -1,27 +1,18 @@
 package com.example.overtimesystem.controller;
 
 
-import com.example.overtimesystem.dto.DepartmentDto;
-import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.dto.ProjectMemberDto;
-import com.example.overtimesystem.dto.UserDto;
-import com.example.overtimesystem.entity.Project;
-import com.example.overtimesystem.entity.ProjectMember;
-import com.example.overtimesystem.entity.User;
 import com.example.overtimesystem.service.DepartmentService;
 import com.example.overtimesystem.service.ProjectMemberService;
 import com.example.overtimesystem.service.ProjectService;
 import com.example.overtimesystem.service.UserService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,10 +29,10 @@ public class ProjectMemberController {
     public String projectMember(Model model, ProjectMemberDto projectMemberDto/*, ProjectDto projectDto*/) {
         model.addAttribute("projectMember", new ProjectMemberDto());
 
-        model.addAttribute("projects",projectService.getAllProjects());
+        model.addAttribute("projects", projectService.getAllProjects());
 
-        model.addAttribute("users",userService.getAllUser());
-        model.addAttribute("projectMembers",projectMemberService.getAllProjectMembers());
+        model.addAttribute("users", userService.getAllUser());
+        model.addAttribute("projectMembers", projectMemberService.getAllProjectMembers());
 
         return "project-member";
     }
@@ -60,7 +51,7 @@ public class ProjectMemberController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/project-member?fail";
         }
-        redirectAttributes.addAttribute("projectId",projectMemberDto.getProject().getId());
+        redirectAttributes.addAttribute("projectId", projectMemberDto.getProject().getId());
         return "redirect:/project-member?success";
     }
 

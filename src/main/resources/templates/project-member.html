@@ -142,16 +142,17 @@
                        th:if="${#fields.hasErrors('user')}"></p>
                 </div>
 
-                <div class="form-radio">
-<!--                    <input type="hidden" name="isLead" value="0">-->
-                    <input type="radio" name="isLead" id="isLead" value="1" th:checked="${isLead == 1} ? ${true}">
-                    <label class="form-check-label" for="isLead">
-                       is Lead?
-                    </label>
-                </div>
+                <div class="mb-3 form-check">
+                    <input th:classappend="${#fields.hasErrors('agreement')?'is-invalid':''}" name="agreement"
+                           type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Agree Terms And Condition</label>
+                    <div id="validationServer4" th:each="e : ${#fields.errors('agreement')}" th:text="${e}" class="invalid-feedback">
+
+                    </div>
 
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Add</button>
+                </div>
                 </div>
             </form>
         </div>

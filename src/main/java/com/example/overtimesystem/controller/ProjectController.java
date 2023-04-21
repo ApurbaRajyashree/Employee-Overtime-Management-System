@@ -1,11 +1,13 @@
 package com.example.overtimesystem.controller;
 
-import com.example.overtimesystem.dto.DepartmentDto;
 import com.example.overtimesystem.dto.ProjectDto;
-import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.Project;
+import com.example.overtimesystem.helper.Message;
+import com.example.overtimesystem.repository.DepartmentRepository;
+import com.example.overtimesystem.repository.ProjectRepository;
 import com.example.overtimesystem.service.DepartmentService;
 import com.example.overtimesystem.service.ProjectService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,55 +30,65 @@ public class ProjectController {
 
     private final DepartmentService departmentService;
 
-    @RequestMapping(value = "/project" , method = RequestMethod.GET)
+    private final ProjectRepository projectRepository;
+
+    private final DepartmentRepository departmentRepository;
+
+    @RequestMapping(value = "/project", method = RequestMethod.GET)
     public String project(Model model, ProjectDto projectDto) {
         model.addAttribute("project", new ProjectDto());
         model.addAttribute("departments", departmentService.getAllDepartment());
         List<ProjectDto> projects = projectService.getAllProjects();
         model.addAttribute("projects", projects);
-        return "project";
+        return "project/project";
     }
 
-    @RequestMapping(value = "/project/create",method = RequestMethod.POST)
+    @RequestMapping(value = "/project/create", method = RequestMethod.POST)
     public String createProject(@Valid @ModelAttribute("project") ProjectDto projectDto, BindingResult result, Model model,
-                                   RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             model.addAttribute("project", projectDto);
-            return "/project";
+            return "redirect:/project";
         }
         try {
             projectService.createProject(projectDto);
 
-        }catch (RuntimeException e){
-            redirectAttributes.addFlashAttribute("error",e.getMessage());
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/project?fail";
         }
         return "redirect:/project?success";
     }
 
-    @RequestMapping(value = "/project/delete/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/project/delete/{id}", method = RequestMethod.GET)
     public String deleteProject(@ModelAttribute("project") ProjectDto projectDto,
-                                @PathVariable int id,Model model) {
+                                @PathVariable int id, Model model) {
         projectService.deleteProject(id);
-        return "project";
+        return "redirect:/project";
     }
 
-    @RequestMapping(value = "/project/update/{id}",method = RequestMethod.POST)
-    public String updateProject(@ModelAttribute("project") ProjectDto projectDto,
-                                @PathVariable("id")int id, Model model,
+    @RequestMapping(value = "/project/update/{id}", method = RequestMethod.GET)
+    public String updateProject(@PathVariable("id") int id, Model model,
                                 RedirectAttributes redirectAttributes) {
-        model.addAttribute("projectDto", new ProjectDto());
-        model.addAttribute("departments", departmentService.getAllDepartment());
-        List<ProjectDto> projects = projectService.getAllProjects();
-        model.addAttribute("projects", projects);
-        model.addAttribute("project",projectService.getProjectByProjectId(id));
-       try
-       {projectService.updateProject(id,projectDto);
-       }catch (RuntimeException e){
-           redirectAttributes.addFlashAttribute("message",e.getMessage());
-       }
-        return "project";
+        Optional<Project> project=projectRepository.findById(id);
+        if(project.isPresent()){
+            Project presentProject=project.get();
+            model.addAttribute("project", new ProjectDto(presentProject));
+            model.addAttribute("department",presentProject.getDepartment());
+            return "/project/update-project";
+        }
+        redirectAttributes.addFlashAttribute("error","Something went wrong");
+        return "redirect:/update-project?fail";
+    }
+
+    @RequestMapping(value = "/project/update", method = RequestMethod.POST)
+    public String processUpdateProject(@ModelAttribute("project")Project project,
+                                       HttpSession session,Model model){
+
+        projectRepository.save(project);
+        session.setAttribute("message","Project updated successfully");
+        return "redirect:/project";
     }
 
 }
