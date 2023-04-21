@@ -15,5 +15,4 @@ public interface DepartmentService {
 
     List<DepartmentDto> getAllDepartment();
 
-    List<UserDto> getUserByDepartmentName(String departmentName);
 }

@@ -4,7 +4,7 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Assign Member</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -48,92 +48,77 @@
         </div>
     </div>
 </nav>
-
-<br>
+<br/><br/>
 
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div th:if="${param.success}">
-                    <div class="alert alert-info">
-                        You have successfully added log
-                    </div>
+            <div th:if="${param.success}">
+                <div class="alert alert-info">
+                    You have successfully added user to the project
                 </div>
-                <div th:if="${param.fail}">
-                    <div class="alert alert-danger">
-                        <span th:text="${error}"></span>
-                    </div>
+            </div>
+            <div th:if="${param.fail}">
+                <div class="alert alert-danger">
+                    <span th:text="${error}"></span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Assign Member</h2>
                 </div>
                 <div class="card-body">
-                    <form
-                            method="post"
-                            role="form"
-                            th:action="@{/over-time-detail/add}"
-                            class="form-horizontal"
-                            th:object="${overTimeDetail}">
 
-                        <div class="col-md-6">
-                            <label for="inputLog" class="form-label">Log</label>
-                            <input type="text" class="form-control" id="inputLog" th:field="*{logs}">
-                            <p th:errors="*{logs}" class="text-danger"
-                               th:if="${#fields.hasErrors('logs')}"></p>
-                        </div>
-
+                    <form class="row g-3"
+                          th:action="@{/assign-member/add}"
+                          method="post"
+                          th:object="${projectMember}">
                         <div class="form-group mb-3">
+                            <input type="text" hidden th:field="*{id}" th:value="${project.id}">
                             <label class="form-label">Project</label>
                             <select
-                                    id="inputProject"
+                                    id="inputDepartment"
+                                    name="department"
                                     class="form-select"
                                     th:field="*{project}">
-                                <option value="0">select option</option>
-                                <option
-                                        th:each="project : ${projects}"
-                                        th:if="${project.projectMembers}==${principal}"
-                                        th:value="${project.id}"
-                                        th:text="${project.projectName}"
-                                ></option>
+                                <option th:value="${project.id}"
+                                        th:text="${project.projectName}">
+                                </option>
                             </select>
-                            <p th:errors="*{project}" class="text-danger"
-                               th:if="${#fields.hasErrors('project')}"></p>
                         </div>
 
-                        <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="col-md-6">
+                            <label class="form-label">User</label>
+                            <select
+                                    id="inputUser"
+                                    class="form-select"
+                                    th:field="*{user}"
+                                    required>
+                                <option value="0">select option</option>
+                                <option
+                                        th:each="user : ${users}"
+                                        th:value="${user.id}"
+                                        th:text="${user.fullName}"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="hidden" name="isLead" value="0">
+                            <input type="checkbox" name="isLead" id="isLead" th:value="${true}">
+                            <label class="form-check-label" for="isLead">
+                                is Lead?
+                            </label>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Assign</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
 
-    <br>
-    <div class="container">
-        <div class="row col-md-10">
-            <h3>OverTime Detail</h3>
-        </div>
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th>Date</th>
-                <th>Logs</th>
-                <th>Project</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="overTimeDetail : ${overTimeDetails}">
-                <td th:text="${overTimeDetail.date}"></td>
-                <td th:text="${overTimeDetail.logs}"></td>
-                <td th:text="${overTimeDetail.project}"></td>
-                <td th:text="${overTimeDetail.startTime}"></td>
-                <td th:text="${overTimeDetail.endTime}"></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-
 </div>
 </body>
 </html>
