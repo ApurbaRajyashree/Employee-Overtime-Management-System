@@ -17,7 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "department")
+@Table(name = "department", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_department_name",columnNames = "department_name")
+})
 @SQLDelete(sql = "UPDATE Department d SET d.isActive=false where d.id=?")
 @Where(clause = "is_active=true")
 public class Department {
@@ -25,7 +27,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "department_name", nullable = false, length = 20,unique = true)
+    @Column(name = "department_name", nullable = false, length = 20)
     private String departmentName;
 
     @Column(name = "is_active")

@@ -42,13 +42,7 @@ public class ProjectMemberController {
 
         model.addAttribute("users",userService.getAllUser());
         model.addAttribute("projectMembers",projectMemberService.getAllProjectMembers());
-//
-//        List<ProjectMemberDto> projectMemberDtos = projectMemberService.getAllProjectMember(projectDto.getProjectName());
-//        model.addAttribute("projectMembers", projectMemberDtos);
-//        Project project=new Project(projectMemberDto.getProject());
-//
-//        List<UserDto> users = departmentService.getUserByDepartmentName(project.getDepartment().getDepartmentName());
-//        model.addAttribute("users", users);
+
         return "project-member";
     }
 

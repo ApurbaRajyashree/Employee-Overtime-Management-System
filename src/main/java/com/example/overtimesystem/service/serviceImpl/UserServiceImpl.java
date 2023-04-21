@@ -2,6 +2,7 @@ package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.entity.Department;
+import com.example.overtimesystem.entity.Role;
 import com.example.overtimesystem.entity.User;
 import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.UserRepository;
@@ -28,7 +29,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = new User(userDto);
+        if(user.getDepartment()==null){
+            throw new RuntimeException("Department should be selected");
+        }
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
         return new UserDto(user);
     }

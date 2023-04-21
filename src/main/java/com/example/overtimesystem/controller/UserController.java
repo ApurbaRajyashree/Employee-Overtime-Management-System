@@ -5,16 +5,19 @@ import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.entity.User;
 import com.example.overtimesystem.service.DepartmentService;
 import com.example.overtimesystem.service.UserService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping()
@@ -32,12 +35,29 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register/save", method = RequestMethod.POST)
-    public String register(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
+    public String register(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result,
+                           RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("user", userDto);
-            return "/register";
+            Map<String, String> requestErrors = validateRequest(result);
+            redirectAttributes.addFlashAttribute("requestError", requestErrors);
+            return "redirect:/register";
         }
-        userService.createUser(userDto);
+        try {
+            userService.createUser(userDto);
+
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/register?fail";
+        } catch (Exception e) {
+            String msg = "";
+            if (e.getMessage().contains("uk_mobile_number")) {
+                msg += "Sorry Mobile Number already Exist.\n";
+            } else if (e.getMessage().contains("uk_email")) {
+                msg += "Sorry Email already exists. \n";
+            }
+            redirectAttributes.addFlashAttribute("error", msg);
+            return "redirect:/register?fail";
+        }
         return "redirect:/register?success";
     }
 
@@ -48,9 +68,19 @@ public class UserController {
         return "users";
     }
 
-//    @GetMapping(value = "dashboard")
-//    public ModelMap mmDashboard() {
-//        return new ModelMap();
-//    }
+
+    public Map<String, String> validateRequest(BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            return null;
+        }
+        Map<String, String> errors = new HashMap<>();
+        bindingResult.getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+        });
+        return errors;
+
+    }
 
 }
