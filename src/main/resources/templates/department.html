@@ -33,7 +33,7 @@
         <div class="collapse navbar-collapse" id="project">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/project}">Project</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/project/project}">Project</a>
                 </li>
             </ul>
         </div>
@@ -53,6 +53,10 @@
     <div class="card">
         <div class="card-header">
             <h2 class="text-center">Add a department</h2>
+        </div>
+        <div th:if="${session.msg}">
+            <h5 class="text-center text-success" th:text="${session.msg}"></h5>
+            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
         </div>
         <div th:if="${param.success}">
             <div class="alert alert-info">
@@ -99,10 +103,7 @@
         <tr th:each="department : ${departments}">
             <td  th:value="${department.id}" th:text="${department.departmentName}"></td>
             <td>
-                <button type="button" class="btn btn-danger" id="delete-department"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        th:value="${department.id}">Delete
-                </button>
+               <a th:href="@{'/department/delete/'+${department.id}}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>

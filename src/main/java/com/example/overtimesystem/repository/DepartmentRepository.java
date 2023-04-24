@@ -16,4 +16,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
     @Query(value = "select full_name from users,department where users.department_id=department.id AND\n" +
             "                                             department_id=?1 ",nativeQuery = true)
     List<User> findAllUserByDepartmentId(int id);
+
+    @Query(value = "UPDATE department  SET is_active=false where id=?1", nativeQuery = true)
+    void deleteById(int integer);
 }

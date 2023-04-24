@@ -25,15 +25,24 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public ProjectMemberDto addUserToProject(ProjectMemberDto projectMemberDto) {
-       ProjectMember projectMember=new ProjectMember(projectMemberDto);
-       this.projectMemberRepository.save(projectMember);
-       return new ProjectMemberDto(projectMember);
+        if (projectMemberDto.getUser() == null) {
+            throw new RuntimeException("User should not be empty");
+        }
+        ProjectMember projectMember=new ProjectMember(projectMemberDto);
+        List<ProjectMember> projectMembers = projectMemberRepository.findAll();
+        for (ProjectMember eachProjectMember : projectMembers) {
+            if (eachProjectMember.getId() == projectMember.getUser().getId()) {
+                throw new RuntimeException("User is already assigned!!");
+            }
+        }
+        this.projectMemberRepository.save(projectMember);
+        return new ProjectMemberDto(projectMember);
     }
 
     @Override
     public List<ProjectMemberDto> getAllProjectMembers() {
-        List<ProjectMember> projectMembers=this.projectMemberRepository.findAll();
-        return projectMembers.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
+        List<ProjectMember> projectMembers = this.projectMemberRepository.findAll();
+        return projectMembers.stream().map(x -> new ProjectMemberDto(x)).collect(Collectors.toList());
     }
 
     @Override
@@ -42,6 +51,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
                 () -> new RuntimeException("Project doesnot exist!")
         );
         List<ProjectMember> projectMemberList = projectMemberRepository.findAllProjectMemberByProjectId(id);
-        return projectMemberList.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
+        return projectMemberList.stream().map(x -> new ProjectMemberDto(x)).collect(Collectors.toList());
     }
 }
