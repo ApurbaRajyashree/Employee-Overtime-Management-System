@@ -2,6 +2,7 @@ package com.example.overtimesystem.entity;
 
 
 import com.example.overtimesystem.dto.OverTimeDetailDto;
+import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,6 +13,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -47,7 +49,6 @@ public class OverTimeDetail {
     @JoinColumn(name = "over_time_master_id", referencedColumnName = "id",nullable = false)
     @JsonBackReference(value = "over_time_master")
     private OverTimeMaster overTimeMaster;
-
 
     public OverTimeDetail (OverTimeDetailDto overTimeDetailDto){
         this.id=overTimeDetailDto.getId();
