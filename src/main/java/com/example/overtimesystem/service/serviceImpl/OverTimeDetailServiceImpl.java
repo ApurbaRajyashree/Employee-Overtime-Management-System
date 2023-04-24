@@ -40,14 +40,12 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
         if (overTimeMaster==null) {
            OverTimeMasterDto createdMaster= overTimeMasterService.createOverTimeMaster(userId);
             overTimeDetail.setOverTimeMaster(new OverTimeMaster(createdMaster));
-            overTimeDetailRepository.save(overTimeDetail);
-            return new OverTimeDetailDto(overTimeDetail);
         }
         else {
             overTimeDetail.setOverTimeMaster(overTimeMaster);
-            overTimeDetailRepository.save(overTimeDetail);
-            return new OverTimeDetailDto(overTimeDetail);
         }
+        overTimeDetailRepository.save(overTimeDetail);
+        return new OverTimeDetailDto(overTimeDetail);
     }
 
     @Override
