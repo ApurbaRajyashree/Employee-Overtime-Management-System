@@ -32,20 +32,13 @@ public class ProjectMemberController {
         return "/project/project-member";
     }
 
-//    @RequestMapping(value = "/project-member/remove", method = RequestMethod.DELETE)
-//    public String removeMember(Model model, ProjectMemberDto projectMemberDto) {
-//
-//        return "project-member";
-//    }
-
-
     @RequestMapping(value = "/assign-member/add", method = RequestMethod.POST)
     public String processAssignMember(@ModelAttribute("projectMember") ProjectMemberDto projectMemberDto,
                                       BindingResult result, Model model,
                                       RedirectAttributes redirectAttributes){
         if (result.hasErrors()) {
             model.addAttribute("projectMember", projectMemberDto);
-            return "redirect:/assign-member";
+            return "redirect:/project/assign-member";
         }
 
         try {
