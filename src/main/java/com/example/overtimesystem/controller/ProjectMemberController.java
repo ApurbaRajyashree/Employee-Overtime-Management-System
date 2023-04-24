@@ -54,9 +54,9 @@ public class ProjectMemberController {
             }
         }catch (RuntimeException e){
             redirectAttributes.addFlashAttribute("error",e.getMessage());
-            return "redirect:/project/assign-member/add?fail";
+            return "redirect:/project/assign-member/"+projectMemberDto.getProject().getId()+"?fail";
         }
-        return "redirect:/project/project-member";
+        return "redirect:/project/assign-member/"+projectMemberDto.getProject().getId()+"?success";
     }
 
 
