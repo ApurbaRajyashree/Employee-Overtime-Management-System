@@ -92,7 +92,7 @@ public class ProjectController {
 
         projectService.updateProject(project.getId(),project);
         session.setAttribute("message","Project updated successfully");
-        return "redirect:/project";
+        return "redirect:/project/project";
     }
 
     @RequestMapping(value = "/project/assign-member/{id}", method = RequestMethod.GET)

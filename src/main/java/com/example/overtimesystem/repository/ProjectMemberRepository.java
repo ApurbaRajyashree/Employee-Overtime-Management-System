@@ -18,4 +18,8 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, In
     List<ProjectMember> findAllProjectMemberByProjectId(int id);
 
     List<ProjectMember> findAllByProjectId(int id);
+
+    @Query(value = "select *\n" +
+            "from project_member where project_id=?1 and user_id=?2",nativeQuery = true)
+    ProjectMember findByProjectAndUser(int projectId,int userId);
 }
