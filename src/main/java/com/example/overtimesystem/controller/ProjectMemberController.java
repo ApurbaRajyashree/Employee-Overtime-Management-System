@@ -6,7 +6,6 @@ import com.example.overtimesystem.service.DepartmentService;
 import com.example.overtimesystem.service.ProjectMemberService;
 import com.example.overtimesystem.service.ProjectService;
 import com.example.overtimesystem.service.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,39 +24,37 @@ public class ProjectMemberController {
     private final ProjectService projectService;
     private final DepartmentService departmentService;
 
-    @RequestMapping(value = "/project-member", method = RequestMethod.GET)
+    @RequestMapping(value = "/project/project-member", method = RequestMethod.GET)
     public String projectMember(Model model, ProjectMemberDto projectMemberDto) {
         model.addAttribute("projectMember", new ProjectMemberDto());
-
-        model.addAttribute("projects", projectService.getAllProjects());
-
-        model.addAttribute("users", userService.getAllUser());
         model.addAttribute("projectMembers", projectMemberService.getAllProjectMembers());
 
-        return "project-member";
+        return "/project/project-member";
     }
 
-    @RequestMapping(value = "/project-member/add", method = RequestMethod.POST)
-    public String register(@Valid @ModelAttribute("projectMember") ProjectMemberDto projectMemberDto,
-                           BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+//    @RequestMapping(value = "/project-member/remove", method = RequestMethod.DELETE)
+//    public String removeMember(Model model, ProjectMemberDto projectMemberDto) {
+//
+//        return "project-member";
+//    }
+
+
+    @RequestMapping(value = "/assign-member/add", method = RequestMethod.POST)
+    public String processAssignMember(@ModelAttribute("projectMember") ProjectMemberDto projectMemberDto,
+                                      BindingResult result, Model model,
+                                      RedirectAttributes redirectAttributes){
         if (result.hasErrors()) {
             model.addAttribute("projectMember", projectMemberDto);
-            return "/project-member";
+            return "redirect:/assign-member";
         }
+
         try {
             projectMemberService.addUserToProject(projectMemberDto);
-
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/project-member?fail";
+        }catch (RuntimeException e){
+            redirectAttributes.addFlashAttribute("error",e.getMessage());
+            return "redirect:/project/assign-member/add?fail";
         }
-        redirectAttributes.addAttribute("projectId", projectMemberDto.getProject().getId());
-        return "redirect:/project-member?success";
-    }
-
-    @RequestMapping(value = "/project-member/remove", method = RequestMethod.DELETE)
-    public String removeMember(Model model, ProjectMemberDto projectMemberDto) {
-        return "project-member";
+        return "redirect:/project/project-member";
     }
 
 

@@ -56,10 +56,4 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departments.stream().map(DepartmentDto::new).collect(Collectors.toList());
     }
 
-
-    @Override
-    public List<UserDto> getUserByDepartmentName(String departmentName) {
-        List<User> userList=userRepository.findAllByDepartment_DepartmentName(departmentName);
-        return userList.stream().map(x->new UserDto(x)).collect(Collectors.toList());
-    }
 }
