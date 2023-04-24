@@ -5,6 +5,7 @@ import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.service.DepartmentService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -55,9 +56,10 @@ public class DepartmentController {
 
     @RequestMapping(value = "/department/delete/{id}",method = RequestMethod.GET)
     public String deleteDepartment(@ModelAttribute("department") DepartmentDto departmentDto,
-                                   @PathVariable("id") int id, Model model) {
+                                   @PathVariable("id") int id, HttpSession session, Model model) {
         departmentService.deleteDepartment(id);
-        return "department";
+        session.setAttribute("msg","Department deleted successfully");
+        return "redirect:/department";
     }
 //
 //

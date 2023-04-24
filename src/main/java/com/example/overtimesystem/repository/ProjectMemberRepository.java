@@ -16,4 +16,6 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, In
             "         inner join project p on project_member.project_id = p.id\n" +
             "where project_name=?1",nativeQuery = true)
     List<ProjectMember> findAllProjectMemberByProjectId(int id);
+
+    List<ProjectMember> findAllByProjectId(int id);
 }

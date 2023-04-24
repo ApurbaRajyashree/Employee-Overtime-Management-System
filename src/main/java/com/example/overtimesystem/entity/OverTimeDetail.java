@@ -6,9 +6,11 @@ import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,7 +25,8 @@ public class OverTimeDetail {
     private int id;
 
     @Column(name = "date", nullable = false)
-    private Date date;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private LocalDate date;
 
     @Column(name = "logs", nullable = false, length = 100)
     private String logs;
