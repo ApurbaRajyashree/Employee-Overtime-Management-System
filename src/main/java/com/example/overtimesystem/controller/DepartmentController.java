@@ -54,20 +54,4 @@ public class DepartmentController {
         return "redirect:/department?success";
     }
 
-    @RequestMapping(value = "/department/delete/{id}",method = RequestMethod.GET)
-    public String deleteDepartment(@ModelAttribute("department") DepartmentDto departmentDto,
-                                   @PathVariable("id") int id, HttpSession session, Model model) {
-        departmentService.deleteDepartment(id);
-        session.setAttribute("msg","Department deleted successfully");
-        return "redirect:/department";
-    }
-//
-//
-//    @RequestMapping(value = "/project/delete/{id}", method = RequestMethod.GET)
-//    public String deleteProject(@ModelAttribute("project") ProjectDto projectDto,
-//                                @PathVariable int id, Model model) {
-//        projectService.deleteProject(id);
-//        return "redirect:/project";
-//    }
-
 }

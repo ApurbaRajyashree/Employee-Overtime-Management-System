@@ -96,48 +96,16 @@
         <thead class="table-dark">
         <tr>
             <th>Department Name</th>
-            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="department : ${departments}">
             <td  th:value="${department.id}" th:text="${department.departmentName}"></td>
-            <td>
-               <a th:href="@{'/department/delete/'+${department.id}}" class="btn btn-danger">Delete</a>
-            </td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<script>
-
-    document.getElementById("delete-department").addEventListener("click", loadProjectId)
-
-    function loadProjectId(){
-        const attribute = document.getElementById("delete-department").value;
-        const deleteLink = "/department/delete/"+attribute;
-        document.getElementById("delete-link").href=deleteLink;
-    }
-
-</script>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="#" id="delete-link"> <button type="button" class="btn btn-primary" value="">Delete</button></a>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </body>
 </html>
