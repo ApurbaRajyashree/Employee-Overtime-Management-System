@@ -69,7 +69,7 @@
     <div class="card-body">
         <form class="row g-3"
               id="updatePopUpForm"
-              th:action="@{/project/update}"
+              th:action="@{/project/update-project}"
               method="post"
               th:object="${project}">
             <input type="text" hidden th:field="*{id}" th:value="${project.id}">

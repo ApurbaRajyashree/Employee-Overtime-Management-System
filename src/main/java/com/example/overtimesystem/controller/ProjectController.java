@@ -72,7 +72,7 @@ public class ProjectController {
         return "redirect:/project/project";
     }
 
-    @RequestMapping(value = "/project/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/project/update-project/{id}", method = RequestMethod.GET)
     public String updateProject(@PathVariable("id") int id, Model model,
                                 RedirectAttributes redirectAttributes) {
         Optional<Project> project=projectRepository.findById(id);
@@ -83,16 +83,16 @@ public class ProjectController {
             return "/project/update-project";
         }
         redirectAttributes.addFlashAttribute("error","Something went wrong");
-        return "redirect:/update-project?fail";
+        return "redirect:project/update-project/"+id+"?fail";
     }
 
-    @RequestMapping(value = "/project/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/project/update-project", method = RequestMethod.POST)
     public String processUpdateProject(@ModelAttribute("project")ProjectDto project,
                                        HttpSession session){
 
         projectService.updateProject(project.getId(),project);
         session.setAttribute("message","Project updated successfully");
-        return "redirect:/project/project";
+        return "redirect:/project/update-project/"+project.getId()+"?success";
     }
 
     @RequestMapping(value = "/project/assign-member/{id}", method = RequestMethod.GET)
