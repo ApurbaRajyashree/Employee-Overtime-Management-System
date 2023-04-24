@@ -88,7 +88,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/project/update", method = RequestMethod.POST)
     public String processUpdateProject(@ModelAttribute("project")ProjectDto project,
-                                       HttpSession session,Model model){
+                                       HttpSession session){
 
         projectService.updateProject(project.getId(),project);
         session.setAttribute("message","Project updated successfully");
