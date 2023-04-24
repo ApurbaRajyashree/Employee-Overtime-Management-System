@@ -1,13 +1,21 @@
 package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.OverTimeDetailDto;
+import com.example.overtimesystem.dto.OverTimeMasterDto;
+import com.example.overtimesystem.entity.Month;
 import com.example.overtimesystem.entity.OverTimeDetail;
+import com.example.overtimesystem.entity.OverTimeMaster;
 import com.example.overtimesystem.repository.OverTimeDetailRepository;
+import com.example.overtimesystem.repository.OverTimeMasterRepository;
+import com.example.overtimesystem.repository.UserRepository;
 import com.example.overtimesystem.service.OverTimeDetailService;
+import com.example.overtimesystem.service.OverTimeMasterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,11 +24,30 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
 
     private final OverTimeDetailRepository overTimeDetailRepository;
 
+    private final OverTimeMasterRepository overTimeMasterRepository;
+
+    private final UserRepository userRepository;
+
+    private final OverTimeMasterService overTimeMasterService;
+
+
     @Override
-    public OverTimeDetailDto createOverTimeDetail(OverTimeDetailDto overTimeDetailDto) {
+    public OverTimeDetailDto createOverTimeDetail(OverTimeDetailDto overTimeDetailDto, String username) {
         OverTimeDetail overTimeDetail = new OverTimeDetail(overTimeDetailDto);
-        overTimeDetailRepository.save(overTimeDetail);
-        return new OverTimeDetailDto(overTimeDetail);
+        overTimeDetail.setDate(LocalDate.now());
+        int userId = this.userRepository.getUserByUserName(username).getId();
+        OverTimeMaster overTimeMaster=overTimeMasterRepository.findByUserYearAndMonth(LocalDate.now().getYear(),Month.valueOfMonthNumber(LocalDate.now().getMonthValue()).toString(),userId);
+        if (overTimeMaster==null) {
+           OverTimeMasterDto createdMaster= overTimeMasterService.createOverTimeMaster(userId);
+            overTimeDetail.setOverTimeMaster(new OverTimeMaster(createdMaster));
+            overTimeDetailRepository.save(overTimeDetail);
+            return new OverTimeDetailDto(overTimeDetail);
+        }
+        else {
+            overTimeDetail.setOverTimeMaster(overTimeMaster);
+            overTimeDetailRepository.save(overTimeDetail);
+            return new OverTimeDetailDto(overTimeDetail);
+        }
     }
 
     @Override

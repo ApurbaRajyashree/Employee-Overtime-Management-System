@@ -142,10 +142,9 @@
                 <span>/</span>
                 <a  class="btn btn-primary" th:href="@{'/project/update/'+${project.id}}">Update</a>
                 <span>/</span>
-                <button type="button" class="btn btn-danger" id="delete-project"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        th:value="${project.getId()}">Delete
-                </button>
+            <td>
+                <a th:href="@{'/project/delete/'+${project.id}}" class="btn btn-danger">Delete</a>
+            </td>
             </td>
         </tr>
 

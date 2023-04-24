@@ -142,7 +142,7 @@
             <tr th:each="overTimeDetail : ${overTimeDetails}">
                 <td th:text="${overTimeDetail.date}"></td>
                 <td th:text="${overTimeDetail.logs}"></td>
-                <td th:text="${overTimeDetail.project}"></td>
+                <td th:text="${overTimeDetail.project.projectName}"></td>
                 <td th:text="${overTimeDetail.startTime}"></td>
                 <td th:text="${overTimeDetail.endTime}"></td>
             </tr>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -26,7 +27,7 @@ public class OverTimeDetailController {
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String project(Model model, OverTimeDetailDto overTimeDetailDto) {
         model.addAttribute("overTimeDetail", new OverTimeDetail());
-        model.addAttribute("projects", projectService.getAllProjects());
+        model.addAttribute("projects", projectService.assignedProject());
         List<OverTimeDetailDto> overTimeDetailDtos = overTimeDetailService.getAll();
         model.addAttribute("overTimeDetails", overTimeDetailDtos);
         return "dashboard";
@@ -35,14 +36,15 @@ public class OverTimeDetailController {
     @RequestMapping(value = "/over-time-detail/add",method = RequestMethod.POST)
     public String createProject(@Valid @ModelAttribute("overTimeDetail") OverTimeDetailDto overTimeDetailDto,
                                 BindingResult result, Model model,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes, Principal principal) {
 
         if (result.hasErrors()) {
             model.addAttribute("overTimeDetail", overTimeDetailDto);
+            model.addAttribute("projects", projectService.getAllProjects());
             return "/dashboard";
         }
         try {
-            overTimeDetailService.createOverTimeDetail(overTimeDetailDto);
+            overTimeDetailService.createOverTimeDetail(overTimeDetailDto,principal.getName());
 
         }catch (RuntimeException e){
             redirectAttributes.addFlashAttribute("error",e.getMessage());

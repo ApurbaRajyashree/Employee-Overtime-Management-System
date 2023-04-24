@@ -2,7 +2,6 @@ package com.example.overtimesystem.entity;
 
 
 import com.example.overtimesystem.dto.OverTimeDetailDto;
-import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,6 +10,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -32,10 +33,10 @@ public class OverTimeDetail {
     private String logs;
 
     @Column(name = "start_time", nullable = false)
-    private Time startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private Time endTime;
+    private LocalTime endTime;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
@@ -43,9 +44,10 @@ public class OverTimeDetail {
     private Project project;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "over_time_master_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "over_time_master_id", referencedColumnName = "id",nullable = false)
     @JsonBackReference(value = "over_time_master")
     private OverTimeMaster overTimeMaster;
+
 
     public OverTimeDetail (OverTimeDetailDto overTimeDetailDto){
         this.id=overTimeDetailDto.getId();

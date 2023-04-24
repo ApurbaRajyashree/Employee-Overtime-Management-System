@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OverTimeDetailService {
 
-    OverTimeDetailDto createOverTimeDetail(OverTimeDetailDto overTimeDetailDto);
+    OverTimeDetailDto createOverTimeDetail(OverTimeDetailDto overTimeDetailDto,String username);
 
     String deleteOverTimeDetail(int id);
 

@@ -6,6 +6,7 @@ import com.example.overtimesystem.entity.Role;
 import com.example.overtimesystem.entity.User;
 import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.UserRepository;
+import com.example.overtimesystem.service.OverTimeMasterService;
 import com.example.overtimesystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
-
-    private final DepartmentRepository departmentRepository;
 
     @Override
     public UserDto createUser(UserDto userDto) {

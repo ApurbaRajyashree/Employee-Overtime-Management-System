@@ -15,4 +15,6 @@ public interface ProjectService {
     List<ProjectDto> getAllProjects();
 
     String deleteProject(int id);
+
+    List<ProjectDto> assignedProject();
 }

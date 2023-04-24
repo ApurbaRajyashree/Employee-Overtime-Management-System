@@ -12,6 +12,8 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -19,10 +21,10 @@ import java.sql.Time;
 @NoArgsConstructor
 public class OverTimeDetailDto {
     private int id;
-    private Date date;
+    private LocalDate date;
     private String logs;
-    private Time startTime;
-    private Time endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private Project project;
     private OverTimeMaster overTimeMaster;
 

@@ -28,6 +28,12 @@ public class OverTimeMaster {
     @Enumerated(EnumType.STRING)
     private Month month;
 
+    @Column(name = "year",nullable = false)
+    private int year;
+
+    @Column(name = "status",nullable = false)
+    private int status;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference(value = "users")
@@ -41,12 +47,14 @@ public class OverTimeMaster {
         this.id = overTimeMasterDto.getId();
         this.month = overTimeMasterDto.getMonth();
         this.user = overTimeMasterDto.getUser();
-        List<OverTimeDetail> overTimeDetailList = new ArrayList<>();
-        for (OverTimeDetailDto overTimeDetailDto : overTimeMasterDto.getOverTimeDetails()) {
-            OverTimeDetail overTimeDetail = new OverTimeDetail(overTimeDetailDto);
-            overTimeDetailList.add(overTimeDetail);
-        }
-        this.overTimeDetails = overTimeDetailList;
+//        List<OverTimeDetail> overTimeDetailList = new ArrayList<>();
+//        for (OverTimeDetailDto overTimeDetailDto : overTimeMasterDto.getOverTimeDetails()) {
+//            OverTimeDetail overTimeDetail = new OverTimeDetail(overTimeDetailDto);
+//            overTimeDetailList.add(overTimeDetail);
+//        }
+//        this.overTimeDetails = overTimeDetailList;
+        this.year=overTimeMasterDto.getYear();
+        this.status=overTimeMasterDto.getStatus();
     }
 
 }

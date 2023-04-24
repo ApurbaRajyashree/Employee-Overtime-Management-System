@@ -2,12 +2,20 @@ package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.entity.Project;
+import com.example.overtimesystem.entity.ProjectMember;
 import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.ProjectRepository;
 import com.example.overtimesystem.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,5 +66,25 @@ public class ProjectServiceImpl implements ProjectService {
     public String deleteProject(int id) {
         projectRepository.deleteById(id);
         return "Project deleted successfully";
+    }
+
+    @Override
+    public List<ProjectDto> assignedProject() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<Project> assignedProjectList=new ArrayList<>();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            List<Project> allProjects=projectRepository.findAll();
+            for (Project eachProject:allProjects){
+                List<ProjectMember> projectMembers=eachProject.getProjectMembers();
+                for (ProjectMember eachProjectMember:projectMembers){
+                    if(eachProjectMember.getUser().getEmail().equals(userDetails.getUsername())){
+                        assignedProjectList.add(eachProject);
+                    }
+                }
+            }
+        }
+        return assignedProjectList.stream().map(x-> new ProjectDto(x)).collect(Collectors.toList());
     }
 }
