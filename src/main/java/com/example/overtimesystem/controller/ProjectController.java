@@ -65,12 +65,12 @@ public class ProjectController {
         return "redirect:/project/project?success";
     }
 
-    @RequestMapping(value = "/project/delete/{id}", method = RequestMethod.GET)
-    public String deleteProject(@ModelAttribute("project") ProjectDto projectDto,
-                                @PathVariable int id, Model model) {
-        projectService.deleteProject(id);
-        return "redirect:/project/project";
-    }
+//    @RequestMapping(value = "/project/delete/{id}", method = RequestMethod.GET)
+//    public String deleteProject(@ModelAttribute("project") ProjectDto projectDto,
+//                                @PathVariable int id, Model model) {
+//        projectService.deleteProject(id);
+//        return "redirect:/project/project";
+//    }
 
     @RequestMapping(value = "/project/update-project/{id}", method = RequestMethod.GET)
     public String updateProject(@PathVariable("id") int id, Model model,

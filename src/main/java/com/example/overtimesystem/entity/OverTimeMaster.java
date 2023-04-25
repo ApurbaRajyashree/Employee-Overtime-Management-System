@@ -39,7 +39,7 @@ public class OverTimeMaster {
     @JsonBackReference(value = "users")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "overTimeMaster")
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "overTimeMaster")
     @JsonManagedReference(value = "over_time_detail")
     private List<OverTimeDetail> overTimeDetails;
 

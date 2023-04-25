@@ -45,7 +45,7 @@ public class OverTimeDetail {
     @JsonBackReference(value = "project")
     private Project project;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "over_time_master_id", referencedColumnName = "id",nullable = false)
     @JsonBackReference(value = "over_time_master")
     private OverTimeMaster overTimeMaster;
