@@ -61,9 +61,8 @@
                                 type="text"
                                 required
                         />
-                        <p th:if="${requestError!=null}"
-                           th:text="${requestError['mobileNumber']}"
-                           class="text-danger"></p>
+                        <p th:errors="*{mobileNumber}" class="text-danger"
+                           th:if="${#fields.hasErrors('mobileNumber')}"></p>
                     </div>
 
                     <div class="form-group mb-3">
@@ -72,14 +71,13 @@
                                 class="form-control"
                                 id="inputDesignation"
                                 name="mobileNumber"
-                                placeholder="Enter Mobile Number"
+                                placeholder="Enter Designation"
                                 th:field="*{designation}"
                                 type="text"
                                 required
                         />
-                        <p th:if="${requestError!=null}"
-                        th:text="${requestError['designation']}"
-                        class="text-danger"></p>
+                        <p th:errors="*{designation}" class="text-danger"
+                           th:if="${#fields.hasErrors('designation')}"></p>
                     </div>
 
 
@@ -111,8 +109,8 @@
                                     th:value="${department.id}"
                                     th:text="${department.departmentName}"></option>
                         </select>
-                        <p th:if="${requestError!=null}" class="text-danger"
-                           th:text="${requestError['department']}"></p>
+                        <p th:errors="*{department}" class="text-danger"
+                           th:if="${#fields.hasErrors('department')}"></p>
 
                     </div>
 
@@ -143,6 +141,7 @@
 </div>
 
 <script>
+
     function validateform(){
         var num=document.registration.mobileNumber.value;
         var phoneno = /^\d{10}$/;

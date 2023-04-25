@@ -11,43 +11,8 @@
           crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/dashboard}">Overtime System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="logout">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
-                </li>
-            </ul>
-        </div>
-        <div class="collapse navbar-collapse" id="department">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/department}">Department</a>
-                </li>
-            </ul>
-        </div>
-        <div class="collapse navbar-collapse" id="project">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/project/project}">Project</a>
-                </li>
-            </ul>
-        </div>
-        <div class="collapse navbar-collapse" id="users">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/users}">Users</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<nav th:replace="~{layout::navbar}"></nav>
+
 <br/><br/>
 
 <div class="container">
@@ -103,8 +68,7 @@
                         </div>
 
                         <div class="form-check">
-                            <input type="hidden" name="isLead" value="0">
-                            <input type="checkbox" name="isLead" id="isLead" th:value="${true}">
+                            <input type="checkbox" name="isLead" id="isLead">
                             <label class="form-check-label" for="isLead">
                                 is Lead?
                             </label>

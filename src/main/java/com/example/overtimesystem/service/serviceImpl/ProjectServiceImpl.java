@@ -4,6 +4,7 @@ import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.ProjectMember;
 import com.example.overtimesystem.repository.DepartmentRepository;
+import com.example.overtimesystem.repository.ProjectMemberRepository;
 import com.example.overtimesystem.repository.ProjectRepository;
 import com.example.overtimesystem.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
-
+    private  final ProjectMemberRepository projectMemberRepository;
     private final DepartmentRepository departmentRepository;
     @Override
     public ProjectDto createProject(ProjectDto projectDto) {
@@ -64,6 +65,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public String deleteProject(int id) {
+        List<ProjectMember> projectMembers=projectMemberRepository.findAllByProjectId(id);
+        for (ProjectMember eachMember: projectMembers){
+            eachMember.setUser(null);
+            eachMember.setProject(null);
+            eachMember.setLead(false);
+            projectMemberRepository.delete(eachMember);
+        }
         projectRepository.deleteById(id);
         return "Project deleted successfully";
     }

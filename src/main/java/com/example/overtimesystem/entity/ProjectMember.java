@@ -24,12 +24,12 @@ public class ProjectMember {
     private boolean isLead;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference(value = "users")
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
     @JsonBackReference(value = "project")
     private Project project;
 
