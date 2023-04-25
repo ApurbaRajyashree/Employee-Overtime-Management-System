@@ -44,11 +44,16 @@ public class OverTimeMasterController {
         Optional<OverTimeMaster> overTimeMaster=overTimeMasterRepository.findById(id);
         if(overTimeMaster.isPresent()){
             OverTimeMaster presentMaster=overTimeMaster.get();
-            model.addAttribute("overTimeDetail",presentMaster.getOverTimeDetails());
+            model.addAttribute("overTimeMaster",presentMaster);
+            model.addAttribute("overTimeDetails",presentMaster.getOverTimeDetails());
 
             return "/over-time-detail";
         }
         redirectAttributes.addFlashAttribute("error","Something went wrong");
         return "redirect:/over-time-detail?fail";
     }
+
+
+
+
 }
