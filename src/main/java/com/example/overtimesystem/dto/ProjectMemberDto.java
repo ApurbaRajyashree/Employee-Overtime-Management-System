@@ -10,13 +10,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectMemberDto {
     private int id;
-    private boolean isLead;
+    private boolean isLead=false;
     private User user;
     private Project project;
 

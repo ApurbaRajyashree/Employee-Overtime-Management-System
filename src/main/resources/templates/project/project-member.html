@@ -37,10 +37,13 @@
             <td th:text="${projectMember.user.fullName}"></td>
             <td th:text="${projectMember.isLead}"></td>
             <td>
-                <span th:action="@{/project-member/remove}" method="delete" th:object="${projectMember}">remove</span>
+                <span>remove</span>
             </td>
         </tr>
         </tbody>
+        <tfoot>
+        <a  class="btn btn-primary"  th:href="@{'/project/assign-member/' +${project.id}}" >Assign Member</a>
+        </tfoot>
     </table>
 </div>
 </body>

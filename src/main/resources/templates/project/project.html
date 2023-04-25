@@ -14,71 +14,71 @@
 
 <br>
 <br>
-<div class="container">
+<!--<div class="container">-->
 
-    <div class="card">
-        <div class="card-header">
-            <h2 class="text-center"> Add a Project</h2>
-        </div>
-        <div th:if="${param.success}">
-            <div class="alert alert-info">
-                You have successfully created a Project
-            </div>
-        </div>
-        <div th:if="${param.fail}">
-            <div class="alert alert-danger">
-                <span th:text="${error}"></span>
-            </div>
-        </div>
-        <div class="card-body">
-            <form class="row g-3"
-                  th:action="@{/project/create}"
-                  method="post"
-                  th:object="${project}">
-                <div class="col-md-6">
-                    <label for="inputProjectName" class="form-label">Project Name</label>
-                    <input type="text" class="form-control" id="inputProjectName" name="projectName" th:field="*{projectName}" required>
-                    <p th:errors="*{projectName}" class="text-danger"
-                       th:if="${#fields.hasErrors('projectName')}"></p>
-                </div>
+<!--    <div class="card">-->
+<!--        <div class="card-header">-->
+<!--            <h2 class="text-center"> Add a Project</h2>-->
+<!--        </div>-->
+<!--        <div th:if="${param.success}">-->
+<!--            <div class="alert alert-info">-->
+<!--                You have successfully created a Project-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div th:if="${param.fail}">-->
+<!--            <div class="alert alert-danger">-->
+<!--                <span th:text="${error}"></span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--            <form class="row g-3"-->
+<!--                  th:action="@{/project/create}"-->
+<!--                  method="post"-->
+<!--                  th:object="${project}">-->
+<!--                <div class="col-md-6">-->
+<!--                    <label for="inputProjectName" class="form-label">Project Name</label>-->
+<!--                    <input type="text" class="form-control" id="inputProjectName" name="projectName" th:field="*{projectName}" required>-->
+<!--                    <p th:errors="*{projectName}" class="text-danger"-->
+<!--                       th:if="${#fields.hasErrors('projectName')}"></p>-->
+<!--                </div>-->
 
-                <div class="col-md-6">
-                    <label for="inputProjectCode" class="form-label">Project Code</label>
-                    <input type="text" class="form-control" id="inputProjectCode" name="projectCode" th:field="*{projectCode}" required>
-                    <p th:errors="*{projectCode}" class="text-danger"
-                       th:if="${#fields.hasErrors('projectCode')}"></p>
-                </div>
+<!--                <div class="col-md-6">-->
+<!--                    <label for="inputProjectCode" class="form-label">Project Code</label>-->
+<!--                    <input type="text" class="form-control" id="inputProjectCode" name="projectCode" th:field="*{projectCode}" required>-->
+<!--                    <p th:errors="*{projectCode}" class="text-danger"-->
+<!--                       th:if="${#fields.hasErrors('projectCode')}"></p>-->
+<!--                </div>-->
 
-                <div class="col-md-6">
-                    <label for="inputEstimateDate" class="form-label">Estimated End date</label>
-                    <input type="date" class="form-control" id="inputEstimateDate" name="estimatedDueDate" th:field="*{estimatedDueDate}" required>
-                    <p th:errors="*{estimatedDueDate}" class="text-danger"
-                       th:if="${#fields.hasErrors('estimatedDueDate')}"></p>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Department</label>
-                    <select
-                            id="inputDepartment"
-                            name="department"
-                            class="form-select"
-                            th:field="*{department}">
-                        <option value="0">select option</option>
-                        <option
-                                th:each="department : ${departments}"
-                                th:value="${department.id}"
-                                th:text="${department.departmentName}"></option>
-                    </select>
-                    <p th:errors="*{department}" class="text-danger"
-                       th:if="${#fields.hasErrors('department')}"></p>
-                </div>
+<!--                <div class="col-md-6">-->
+<!--                    <label for="inputEstimateDate" class="form-label">Estimated End date</label>-->
+<!--                    <input type="date" class="form-control" id="inputEstimateDate" name="estimatedDueDate" th:field="*{estimatedDueDate}" required>-->
+<!--                    <p th:errors="*{estimatedDueDate}" class="text-danger"-->
+<!--                       th:if="${#fields.hasErrors('estimatedDueDate')}"></p>-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                    <label class="form-label">Department</label>-->
+<!--                    <select-->
+<!--                            id="inputDepartment"-->
+<!--                            name="department"-->
+<!--                            class="form-select"-->
+<!--                            th:field="*{department}">-->
+<!--                        <option value="0">select option</option>-->
+<!--                        <option-->
+<!--                                th:each="department : ${departments}"-->
+<!--                                th:value="${department.id}"-->
+<!--                                th:text="${department.departmentName}"></option>-->
+<!--                    </select>-->
+<!--                    <p th:errors="*{department}" class="text-danger"-->
+<!--                       th:if="${#fields.hasErrors('department')}"></p>-->
+<!--                </div>-->
 
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Create</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<!--                <div class="col-12">-->
+<!--                    <button type="submit" class="btn btn-primary">Create</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <br/><br>
 
 <div class="container">
@@ -102,18 +102,18 @@
             <td th:text="${project.estimatedDueDate}"></td>
             <td th:text="${project.department.departmentName}"></td>
             <td>
-                <a th:href="@{'/project/assign-member/' +${project.id}}" class="btn btn-info">Assign Member</a>
+                <a th:href="@{'/project/project-member/' +${project.id}}" class="btn btn-info">View Member</a>
                 <span>/</span>
                 <a  class="btn btn-primary" th:href="@{'/project/update-project/'+${project.id}}">Update</a>
-<!--                <span>/</span>-->
-<!--                <a th:href="@{'/project/delete/'+${project.id}}" class="btn btn-danger">Delete</a>-->
+                <span>/</span>
+                <a th:href="@{'/project/delete/'+${project.id}}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 
 
         </tbody>
         <tfoot>
-        <a th:href="@{/project/project-member}" >See All Project Members</a>
+        <a  class="btn btn-primary" th:href="@{/project/create-project}" >Create Project</a>
         </tfoot>
     </table>
 </div>

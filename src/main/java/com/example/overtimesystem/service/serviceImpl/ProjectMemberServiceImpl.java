@@ -29,12 +29,21 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
             projectMemberRepository.save(projectMember);
             return new ProjectMemberDto(projectMember);
     }
-
     @Override
-    public List<ProjectMemberDto> getAllProjectMembers() {
-        List<ProjectMember> projectMembers = this.projectMemberRepository.findAll();
-        return projectMembers.stream().map(x -> new ProjectMemberDto(x)).collect(Collectors.toList());
+    public List<ProjectMemberDto> addUserToProject(List<ProjectMemberDto> projectMemberDtos) {
+        List<ProjectMember> projectMemberList=projectMemberDtos.stream().map(x->new ProjectMember(x)).collect(Collectors.toList());
+        List<ProjectMember> savedMember=new ArrayList<>();
+        for (ProjectMember eachMember:projectMemberList){
+            savedMember.add(projectMemberRepository.save(eachMember));
+        }
+        return savedMember.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
     }
+
+//    @Override
+//    public List<ProjectMemberDto> getAllProjectMembers() {
+//        List<ProjectMember> projectMembers = this.projectMemberRepository.findAllByProjectId();
+//        return projectMembers.stream().map(x -> new ProjectMemberDto(x)).collect(Collectors.toList());
+//    }
 
     @Override
     public List<ProjectMemberDto> getAllProjectMemberByProjectId(int id) {

@@ -10,11 +10,9 @@ import java.util.List;
 @Repository
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Integer> {
 
-    @Query(value = "select u.full_name\n" +
-            "from project_member\n" +
-            "         inner join users u on project_member.user_id = u.id\n" +
-            "         inner join project p on project_member.project_id = p.id\n" +
-            "where project_name=?1",nativeQuery = true)
+    @Query(value = "select pm.*\n" +
+            "from project_member pm inner join project p on pm.project_id = p.id\n" +
+            "where p.id=?1 and p.is_active=true",nativeQuery = true)
     List<ProjectMember> findAllProjectMemberByProjectId(int id);
 
     List<ProjectMember> findAllByProjectId(int id);

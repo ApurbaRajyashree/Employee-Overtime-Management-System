@@ -59,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDto> getAllProjects() {
-        List<Project> projectList = projectRepository.findAll();
+        List<Project> projectList = projectRepository.findAll(true);
         return projectList.stream().map(x -> new ProjectDto(x)).collect(Collectors.toList());
     }
 
@@ -83,7 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            List<Project> allProjects=projectRepository.findAll();
+            List<Project> allProjects=projectRepository.findAll(true);
             for (Project eachProject:allProjects){
                 List<ProjectMember> projectMembers=eachProject.getProjectMembers();
                 for (ProjectMember eachProjectMember:projectMembers){

@@ -21,15 +21,15 @@ public class ProjectMember {
     private int id;
 
     @Column(name = "is_lead", nullable = false)
-    private boolean isLead;
+    private boolean isLead=false;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false)
     @JsonBackReference(value = "users")
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    @JoinColumn(name = "project_id", referencedColumnName = "id",nullable = false)
     @JsonBackReference(value = "project")
     private Project project;
 
