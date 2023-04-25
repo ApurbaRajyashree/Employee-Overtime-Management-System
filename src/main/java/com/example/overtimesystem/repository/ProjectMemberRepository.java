@@ -12,7 +12,7 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, In
 
     @Query(value = "select pm.*\n" +
             "from project_member pm inner join project p on pm.project_id = p.id\n" +
-            "where p.id=?1 and p.is_active=true",nativeQuery = true)
+            "where p.id=?1 and p.is_active=true order by pm.id",nativeQuery = true)
     List<ProjectMember> findAllProjectMemberByProjectId(int id);
 
     List<ProjectMember> findAllByProjectId(int id);

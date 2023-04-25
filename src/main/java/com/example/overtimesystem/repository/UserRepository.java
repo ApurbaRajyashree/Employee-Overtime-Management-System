@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public User getUserByUserName(@Param("email") String email);
 
     List<User> findAllByDepartmentId(int id);
+
+
 }
