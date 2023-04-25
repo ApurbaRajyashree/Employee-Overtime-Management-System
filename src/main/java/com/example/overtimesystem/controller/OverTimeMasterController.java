@@ -4,6 +4,7 @@ import com.example.overtimesystem.dto.DepartmentDto;
 import com.example.overtimesystem.dto.OverTimeDetailDto;
 import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.example.overtimesystem.dto.ProjectDto;
+import com.example.overtimesystem.entity.OverTimeDetail;
 import com.example.overtimesystem.entity.OverTimeMaster;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.ProjectMember;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,6 +47,11 @@ public class OverTimeMasterController {
         if(overTimeMaster.isPresent()){
             OverTimeMaster presentMaster=overTimeMaster.get();
             model.addAttribute("overTimeMaster",presentMaster);
+            List<OverTimeDetail> overTimeDetailList=presentMaster.getOverTimeDetails();
+            List<OverTimeDetailDto> overTimeDetailDtoList=overTimeDetailList.stream().map(x->new OverTimeDetailDto(x)).collect(Collectors.toList());
+            List<OverTimeDetailDto> usersOverTimeDetail=overTimeMasterService.getAllOverTimeDetailofLogedInUser(
+                    overTimeDetailDtoList
+            );
             model.addAttribute("overTimeDetails",presentMaster.getOverTimeDetails());
 
             return "/over-time-detail";

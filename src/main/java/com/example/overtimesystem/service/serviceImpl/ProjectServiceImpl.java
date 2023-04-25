@@ -81,7 +81,6 @@ public class ProjectServiceImpl implements ProjectService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<Project> assignedProjectList=new ArrayList<>();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             List<Project> allProjects=projectRepository.findAll(true);
             for (Project eachProject:allProjects){

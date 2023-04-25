@@ -1,5 +1,6 @@
 package com.example.overtimesystem.service.serviceImpl;
 
+import com.example.overtimesystem.dto.OverTimeDetailDto;
 import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.example.overtimesystem.entity.*;
 import com.example.overtimesystem.repository.OverTimeDetailRepository;
@@ -55,7 +56,7 @@ public class OverTimeMasterServiceImpl implements OverTimeMasterService {
             for (OverTimeMaster eachMaster : overTimeMasterList) {
                 if (eachMaster.getUser().getEmail().equals(userDetails.getUsername())) {
                     usersOverTimeMaster.add(eachMaster);
-                    if ((eachMaster.getYear() < presentYear) || eachMaster.getMonth().monthNumber<presentMonth ) {
+                    if ((eachMaster.getYear() < presentYear) || eachMaster.getMonth().monthNumber < presentMonth) {
                         createOverTimeMaster(user.getId());
                     }
                 }
@@ -65,5 +66,19 @@ public class OverTimeMasterServiceImpl implements OverTimeMasterService {
         return usersOverTimeMaster.stream().map(x -> new OverTimeMasterDto(x)).collect(Collectors.toList());
     }
 
-
+    @Override
+    public List<OverTimeDetailDto> getAllOverTimeDetailofLogedInUser(List<OverTimeDetailDto> overTimeDetailDtos) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<OverTimeDetailDto> overTimeDetailDtoList = new ArrayList<>();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = userRepository.findByEmail(userDetails.getUsername());
+            for (OverTimeDetailDto eachDetailDto : overTimeDetailDtos) {
+                if (eachDetailDto.getOverTimeMaster().getUser().getEmail().equals(userDetails.getUsername())) {
+                    overTimeDetailDtoList.add(eachDetailDto);
+                }
+            }
+        }
+        return overTimeDetailDtoList;
+    }
 }
