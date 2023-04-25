@@ -42,6 +42,8 @@
             <td th:text="${projectMember.user.fullName}"></td>
             <td th:text="${projectMember.isLead}"></td>
             <td>
+                <a th:href="@{'/project/project-member/'+${project.id}+'/is-lead/'+${projectMember.id}}" class="btn btn-info">Assign Lead</a>
+
                 <a th:href="@{'/project/project-member/'+${project.id}+'/remove-member/'+${projectMember.id}}" class="btn btn-danger">Remove</a>
             </td>
         </tr>

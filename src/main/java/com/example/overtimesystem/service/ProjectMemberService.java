@@ -13,6 +13,8 @@ public interface ProjectMemberService {
 
     String removeProjectMember(int id);
 
+    String assignLead(int id);
+
 
 }
 

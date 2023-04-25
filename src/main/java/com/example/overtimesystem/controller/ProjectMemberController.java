@@ -82,4 +82,14 @@ public class ProjectMemberController {
     }
 
 
+    @RequestMapping(value = "/project/project-member/{project_id}/is-lead/{id}", method = RequestMethod.GET)
+    public String assignLead(@ModelAttribute("projectMember") ProjectMemberDto projectMemberDtoDto,
+                                @PathVariable("project_id") int projectId,
+                                @PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        String msg= projectMemberService.assignLead(id);
+        redirectAttributes.addFlashAttribute("msg",msg);
+        return "redirect:/project/project-member/"+projectId+"?success";
+    }
+
+
 }

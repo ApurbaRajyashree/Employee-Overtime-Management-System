@@ -66,5 +66,15 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     }
 
+    @Override
+    public String assignLead(int id) {
+        ProjectMember projectMember=projectMemberRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("Project Member does not exist")
+        );
+        projectMember.setLead(true);
+        projectMemberRepository.save(projectMember);
+        return projectMember.getUser().getFullName()+" assigned Lead";
+    }
+
 
 }
