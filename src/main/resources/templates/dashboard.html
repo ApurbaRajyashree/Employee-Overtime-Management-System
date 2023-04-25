@@ -10,6 +10,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
     <link th:href="@{~/css/time.css}" rel="stylesheet">
+    <style th:replace="~{layout::navbar-css}"></style>
 </head>
 <body>
 <nav th:replace="~{layout::navbar}"></nav>
@@ -91,6 +92,6 @@
     <br>
 
 </div>
-
+<script th:replace="~{layout::navbar-js}"></script>
 </body>
 </html>

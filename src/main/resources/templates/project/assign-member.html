@@ -9,8 +9,8 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <link th:rel="stylesheet" th:href="@{assets/bootstrap-select-1.13.9/dist/css/bootstrap-select.css}"/>
-    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <style th:replace="~{layout::navbar-css}"></style>
+
 </head>
 <body>
 <nav th:replace="~{layout::navbar}"></nav>
@@ -86,6 +86,6 @@
 
     </div>
 </div>
-</body>
+<script th:replace="~{layout::navbar-js}"></script>
 </body>
 </html>
