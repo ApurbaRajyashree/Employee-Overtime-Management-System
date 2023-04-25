@@ -55,12 +55,30 @@ public class ProjectMemberController {
         }
 
         try {
+            ProjectMember testProjectMember=projectMemberRepository.findByProjectAndUser(projectMemberDto.getProject().getId(),
+                    projectMemberDto.getUser().getId());
+            if(testProjectMember==null) {
                 projectMemberService.addUserToProject(projectMemberDto);
+            }
+            else {
+                throw new RuntimeException(projectMemberDto.getUser().getFullName()+" already assigned to project "+
+                        projectMemberDto.getProject().getProjectName());
+            }
         }catch (RuntimeException e){
             redirectAttributes.addFlashAttribute("error",e.getMessage());
             return "redirect:/project/assign-member/"+projectMemberDto.getProject().getId()+"?fail";
         }
         return "redirect:/project/assign-member/"+projectMemberDto.getProject().getId()+"?success";
+    }
+
+
+    @RequestMapping(value = "/project/project-member/{project_id}/remove-member/{id}", method = RequestMethod.GET)
+    public String deleteProject(@ModelAttribute("projectMember") ProjectMemberDto projectMemberDtoDto,
+                                @PathVariable("project_id") int projectId,
+                                @PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+       String msg= projectMemberService.removeProjectMember(id);
+       redirectAttributes.addFlashAttribute("msg",msg);
+        return "redirect:/project/project-member/"+projectId+"?success";
     }
 
 

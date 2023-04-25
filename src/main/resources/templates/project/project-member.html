@@ -18,6 +18,11 @@
     <div class="row col-md-10">
         <h2>Project Members</h2>
     </div>
+    <div th:if="${param.success}">
+        <div class="alert alert-info">
+            <span th:text="${msg}"></span>
+        </div>
+    </div>
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
@@ -37,7 +42,7 @@
             <td th:text="${projectMember.user.fullName}"></td>
             <td th:text="${projectMember.isLead}"></td>
             <td>
-                <span>remove</span>
+                <a th:href="@{'/project/project-member/'+${project.id}+'/remove-member/'+${projectMember.id}}" class="btn btn-danger">Remove</a>
             </td>
         </tr>
         </tbody>

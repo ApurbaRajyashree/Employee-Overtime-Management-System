@@ -29,21 +29,16 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
             projectMemberRepository.save(projectMember);
             return new ProjectMemberDto(projectMember);
     }
-    @Override
-    public List<ProjectMemberDto> addUserToProject(List<ProjectMemberDto> projectMemberDtos) {
-        List<ProjectMember> projectMemberList=projectMemberDtos.stream().map(x->new ProjectMember(x)).collect(Collectors.toList());
-        List<ProjectMember> savedMember=new ArrayList<>();
-        for (ProjectMember eachMember:projectMemberList){
-            savedMember.add(projectMemberRepository.save(eachMember));
-        }
-        return savedMember.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
-    }
-
 //    @Override
-//    public List<ProjectMemberDto> getAllProjectMembers() {
-//        List<ProjectMember> projectMembers = this.projectMemberRepository.findAllByProjectId();
-//        return projectMembers.stream().map(x -> new ProjectMemberDto(x)).collect(Collectors.toList());
+//    public List<ProjectMemberDto> addUserToProject(List<ProjectMemberDto> projectMemberDtos) {
+//        List<ProjectMember> projectMemberList=projectMemberDtos.stream().map(x->new ProjectMember(x)).collect(Collectors.toList());
+//        List<ProjectMember> savedMember=new ArrayList<>();
+//        for (ProjectMember eachMember:projectMemberList){
+//            savedMember.add(projectMemberRepository.save(eachMember));
+//        }
+//        return savedMember.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
 //    }
+
 
     @Override
     public List<ProjectMemberDto> getAllProjectMemberByProjectId(int id) {
@@ -53,4 +48,23 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         List<ProjectMember> projectMemberList = projectMemberRepository.findAllProjectMemberByProjectId(id);
         return projectMemberList.stream().map(x -> new ProjectMemberDto(x)).collect(Collectors.toList());
     }
+
+    @Override
+    public String removeProjectMember(int id) {
+        ProjectMember projectMember=projectMemberRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("Project Member does not exist")
+        );
+        Project project=projectRepository.findById(projectMember.getProject().getId()).orElseThrow(
+                ()->new RuntimeException("Project does not exist")
+        );
+        List<ProjectMember> projectMembers=project.getProjectMembers();
+        projectMembers.remove(projectMember);
+        projectMember.setProject(null);
+        projectMember.setUser(null);
+        projectMemberRepository.delete(projectMember);
+        return "Deleted successfully";
+
+    }
+
+
 }
