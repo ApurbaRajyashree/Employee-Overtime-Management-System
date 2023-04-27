@@ -23,11 +23,6 @@ public class MainController {
         return "dashboard";
     }
 
-    @GetMapping("/fragments")
-    public String getHome() {
-        return "/fragments";
-    }
-
     @GetMapping("/")
     public String start(){
         return "login";

@@ -75,4 +75,14 @@ public class User {
         this.isActive = userDto.isActive();
         this.role = userDto.getRole();
     }
+
+
+
+    public  boolean isAdmin(){
+        if(this.role.equals(Role.ADMIN)){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

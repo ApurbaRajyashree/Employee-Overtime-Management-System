@@ -60,7 +60,8 @@
     <a th:href="@{/master}">Master</a>
     <a th:href="@{/department}">Department</a>
     <a th:href="@{/project/project}">Project</a>
-    <a th:href="@{/users}">Users</a>
+    <div th:if="${user.isAdmin()}">
+    <a th:href="@{/users}">Users</a></div>
     <a th:href="@{/logout}">Logout</a>
 
 </div>

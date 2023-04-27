@@ -2,6 +2,7 @@ package com.example.overtimesystem.controller;
 
 import com.example.overtimesystem.dto.OverTimeDetailDto;
 import com.example.overtimesystem.entity.OverTimeDetail;
+import com.example.overtimesystem.repository.UserRepository;
 import com.example.overtimesystem.service.OverTimeDetailService;
 import com.example.overtimesystem.service.ProjectService;
 import jakarta.validation.Valid;
@@ -24,23 +25,28 @@ public class OverTimeDetailController {
     private final OverTimeDetailService overTimeDetailService;
     private final ProjectService projectService;
 
+    private final UserRepository userRepository;
+
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public String project(Model model, OverTimeDetailDto overTimeDetailDto) {
+    public String overTimeDetail(Model model, OverTimeDetailDto overTimeDetailDto,Principal principal) {
         model.addAttribute("overTimeDetail", new OverTimeDetail());
         model.addAttribute("projects", projectService.assignedProject());
         List<OverTimeDetailDto> overTimeDetailDtos = overTimeDetailService.getAll();
         model.addAttribute("overTimeDetails", overTimeDetailDtos);
+        model.addAttribute("user",userRepository.findByEmail(principal.getName()));
         return "dashboard";
     }
 
     @RequestMapping(value = "/over-time-detail/add",method = RequestMethod.POST)
-    public String createProject(@Valid @ModelAttribute("overTimeDetail") OverTimeDetailDto overTimeDetailDto,
+    public String createOverTimeDetail(@Valid @ModelAttribute("overTimeDetail") OverTimeDetailDto overTimeDetailDto,
                                 BindingResult result, Model model,
                                 RedirectAttributes redirectAttributes, Principal principal) {
 
         if (result.hasErrors()) {
             model.addAttribute("overTimeDetail", overTimeDetailDto);
             model.addAttribute("projects", projectService.getAllProjects());
+            model.addAttribute("user",userRepository.findByEmail(principal.getName()));
+
             return "/dashboard";
         }
         try {
@@ -48,8 +54,11 @@ public class OverTimeDetailController {
 
         }catch (RuntimeException e){
             redirectAttributes.addFlashAttribute("error",e.getMessage());
+            model.addAttribute("user",userRepository.findByEmail(principal.getName()));
+
             return "redirect:/dashboard?fail";
         }
+        model.addAttribute("user",userRepository.findByEmail(principal.getName()));
         return "redirect:/dashboard?success";
     }
 

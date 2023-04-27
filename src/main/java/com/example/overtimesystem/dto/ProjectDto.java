@@ -2,12 +2,19 @@ package com.example.overtimesystem.dto;
 
 import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.Project;
+import com.example.overtimesystem.entity.ProjectMember;
+import com.example.overtimesystem.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 
@@ -34,18 +41,22 @@ public class ProjectDto {
         this.projectName = project.getProjectName();
         this.estimatedDueDate = project.getEstimatedDueDate();
         this.isActive = project.isActive();
-//        List<ProjectMemberDto> projectMemberDtoList=new ArrayList<>();
-//        for (ProjectMember projectMember:project.getProjectMembers()){
-//            ProjectMemberDto projectMemberDto=new ProjectMemberDto(projectMember);
-//            projectMemberDtoList.add(projectMemberDto);
-//        }
-//        this.projectMembers=projectMemberDtoList;
-//
-//        List<OverTimeDetailDto> overTimeDetailDtos=new ArrayList<>();
-//        for (OverTimeDetail overTimeDetail:project.getOverTimeDetailList()){
-//            OverTimeDetailDto overTimeDetailDto=new OverTimeDetailDto(overTimeDetail);
-//            overTimeDetailDtos.add(overTimeDetailDto);
-//        }
-//        this.overTimeDetailList=overTimeDetailDtos;
+    }
+
+
+    public boolean isLead() {
+        List<ProjectMemberDto> projectMembers=this.getProjectMembers();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            for (ProjectMemberDto eachMember:projectMembers){
+                if(eachMember.isLead()){
+                    if(eachMember.getUser().getEmail().equals(userDetails.getUsername()))
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 }
