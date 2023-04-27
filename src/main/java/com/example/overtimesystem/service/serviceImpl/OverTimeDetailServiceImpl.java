@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,12 +35,11 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
         OverTimeDetail overTimeDetail = new OverTimeDetail(overTimeDetailDto);
         overTimeDetail.setDate(LocalDate.now());
         int userId = this.userRepository.getUserByUserName(username).getId();
-        OverTimeMaster overTimeMaster=overTimeMasterRepository.findByUserYearAndMonth(LocalDate.now().getYear(),Month.valueOfMonthNumber(LocalDate.now().getMonthValue()).toString(),userId);
-        if (overTimeMaster==null) {
-           OverTimeMasterDto createdMaster= overTimeMasterService.createOverTimeMaster(userId);
+        OverTimeMaster overTimeMaster = overTimeMasterRepository.findByUserYearAndMonth(LocalDate.now().getYear(), Month.valueOfMonthNumber(LocalDate.now().getMonthValue()).toString(), userId);
+        if (overTimeMaster == null) {
+            OverTimeMasterDto createdMaster = overTimeMasterService.createOverTimeMaster(userId);
             overTimeDetail.setOverTimeMaster(new OverTimeMaster(createdMaster));
-        }
-        else {
+        } else {
             overTimeDetail.setOverTimeMaster(overTimeMaster);
         }
         overTimeDetailRepository.save(overTimeDetail);
@@ -61,7 +59,7 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
 
     @Override
     public List<OverTimeDetailDto> getAllByOverTimeMaster(int id) {
-        List<OverTimeDetail> overTimeDetailList=overTimeDetailRepository.findAllByOverTimeMaster(id);
-        return  overTimeDetailList.stream().map(x->new OverTimeDetailDto(x)).collect(Collectors.toList());
+        List<OverTimeDetail> overTimeDetailList = overTimeDetailRepository.findAllByOverTimeMaster(id);
+        return overTimeDetailList.stream().map(x -> new OverTimeDetailDto(x)).collect(Collectors.toList());
     }
 }

@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.sql.Time;
-import java.util.Date;
-
 @Controller
 public class MainController {
 

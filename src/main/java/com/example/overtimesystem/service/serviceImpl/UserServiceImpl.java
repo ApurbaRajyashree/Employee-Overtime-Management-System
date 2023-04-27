@@ -1,16 +1,11 @@
 package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.UserDto;
-import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.Role;
 import com.example.overtimesystem.entity.User;
-import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.UserRepository;
-import com.example.overtimesystem.service.OverTimeMasterService;
 import com.example.overtimesystem.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,5 @@
 package com.example.overtimesystem.repository;
 
-import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.entity.Department;
 import com.example.overtimesystem.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

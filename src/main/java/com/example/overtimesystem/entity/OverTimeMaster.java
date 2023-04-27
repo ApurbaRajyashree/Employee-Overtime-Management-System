@@ -1,6 +1,5 @@
 package com.example.overtimesystem.entity;
 
-import com.example.overtimesystem.dto.OverTimeDetailDto;
 import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -10,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

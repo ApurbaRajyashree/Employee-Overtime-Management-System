@@ -1,12 +1,9 @@
 package com.example.overtimesystem.repository;
 
-import com.example.overtimesystem.entity.Month;
 import com.example.overtimesystem.entity.OverTimeMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface OverTimeMasterRepository extends JpaRepository<OverTimeMaster, Integer> {

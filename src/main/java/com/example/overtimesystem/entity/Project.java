@@ -1,8 +1,6 @@
 package com.example.overtimesystem.entity;
 
-import com.example.overtimesystem.dto.OverTimeDetailDto;
 import com.example.overtimesystem.dto.ProjectDto;
-import com.example.overtimesystem.dto.ProjectMemberDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -14,7 +12,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

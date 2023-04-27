@@ -1,16 +1,11 @@
 package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.DepartmentDto;
-import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.entity.Department;
-import com.example.overtimesystem.entity.User;
 import com.example.overtimesystem.repository.DepartmentRepository;
-import com.example.overtimesystem.repository.UserRepository;
 import com.example.overtimesystem.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,8 +14,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
-
-    private final UserRepository userRepository;
 
     @Override
     public DepartmentDto createDepartment(DepartmentDto departmentDto) {

@@ -1,8 +1,6 @@
 package com.example.overtimesystem.service;
 
 import com.example.overtimesystem.dto.DepartmentDto;
-import com.example.overtimesystem.dto.UserDto;
-import com.example.overtimesystem.entity.Department;
 
 import java.util.List;
 

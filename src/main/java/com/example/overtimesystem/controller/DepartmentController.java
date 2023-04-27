@@ -1,19 +1,14 @@
 package com.example.overtimesystem.controller;
 
 import com.example.overtimesystem.dto.DepartmentDto;
-import com.example.overtimesystem.dto.ProjectDto;
-import com.example.overtimesystem.dto.UserDto;
-import com.example.overtimesystem.repository.DepartmentRepository;
 import com.example.overtimesystem.repository.UserRepository;
 import com.example.overtimesystem.service.DepartmentService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;

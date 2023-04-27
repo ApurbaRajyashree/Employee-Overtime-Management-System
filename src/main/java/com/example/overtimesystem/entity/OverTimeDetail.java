@@ -2,18 +2,16 @@ package com.example.overtimesystem.entity;
 
 
 import com.example.overtimesystem.dto.OverTimeDetailDto;
-import com.example.overtimesystem.dto.OverTimeMasterDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.LocalDate;
 
 @Getter
 @Setter

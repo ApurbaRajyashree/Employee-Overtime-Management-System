@@ -1,17 +1,14 @@
 package com.example.overtimesystem.service.serviceImpl;
 
 import com.example.overtimesystem.dto.ProjectMemberDto;
-import com.example.overtimesystem.dto.UserDto;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.ProjectMember;
 import com.example.overtimesystem.repository.ProjectMemberRepository;
 import com.example.overtimesystem.repository.ProjectRepository;
 import com.example.overtimesystem.service.ProjectMemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,16 +26,6 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
             projectMemberRepository.save(projectMember);
             return new ProjectMemberDto(projectMember);
     }
-//    @Override
-//    public List<ProjectMemberDto> addUserToProject(List<ProjectMemberDto> projectMemberDtos) {
-//        List<ProjectMember> projectMemberList=projectMemberDtos.stream().map(x->new ProjectMember(x)).collect(Collectors.toList());
-//        List<ProjectMember> savedMember=new ArrayList<>();
-//        for (ProjectMember eachMember:projectMemberList){
-//            savedMember.add(projectMemberRepository.save(eachMember));
-//        }
-//        return savedMember.stream().map(x->new ProjectMemberDto(x)).collect(Collectors.toList());
-//    }
-
 
     @Override
     public List<ProjectMemberDto> getAllProjectMemberByProjectId(int id) {
