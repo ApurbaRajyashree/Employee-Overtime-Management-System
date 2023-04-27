@@ -12,4 +12,6 @@ public interface OverTimeDetailService {
     String deleteOverTimeDetail(int id);
 
     List<OverTimeDetailDto> getAll();
+
+    List<OverTimeDetailDto> getAllByOverTimeMaster(int id);
 }

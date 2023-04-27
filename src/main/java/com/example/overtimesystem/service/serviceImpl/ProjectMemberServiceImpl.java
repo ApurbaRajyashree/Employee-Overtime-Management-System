@@ -83,4 +83,16 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
 
+    @Override
+    public ProjectMember Lead(int id) {
+        List<ProjectMember> projectMembers=projectMemberRepository.findAllByProjectId(id);
+        for (ProjectMember eachMember:projectMembers){
+            if(eachMember.isLead()){
+                return eachMember;
+            }
+        }
+        return null;
+    }
+
+
 }

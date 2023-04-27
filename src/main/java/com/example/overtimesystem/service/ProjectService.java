@@ -19,5 +19,4 @@ public interface ProjectService {
 
     List<ProjectDto> assignedProject();
 
-    ProjectMember Lead(int id);
 }

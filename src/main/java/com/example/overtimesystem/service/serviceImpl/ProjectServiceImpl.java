@@ -95,14 +95,4 @@ public class ProjectServiceImpl implements ProjectService {
         return assignedProjectList.stream().map(x-> new ProjectDto(x)).collect(Collectors.toList());
     }
 
-    @Override
-    public ProjectMember Lead(int id) {
-        List<ProjectMember> projectMembers=projectMemberRepository.findAllByProjectId(id);
-        for (ProjectMember eachMember:projectMembers){
-            if(eachMember.isLead()){
-                return eachMember;
-            }
-        }
-        return null;
-    }
 }

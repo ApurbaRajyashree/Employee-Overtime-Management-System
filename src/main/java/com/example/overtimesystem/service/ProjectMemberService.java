@@ -1,6 +1,7 @@
 package com.example.overtimesystem.service;
 
 import com.example.overtimesystem.dto.ProjectMemberDto;
+import com.example.overtimesystem.entity.ProjectMember;
 
 import java.util.List;
 
@@ -9,12 +10,12 @@ public interface ProjectMemberService {
 
     List<ProjectMemberDto> getAllProjectMemberByProjectId(int id);
 
-//    List<ProjectMemberDto> addUserToProject(List<ProjectMemberDto> projectMemberDtos);
 
     String removeProjectMember(int id);
 
     String assignLead(int id);
 
+    ProjectMember Lead(int id);
 
 }
 

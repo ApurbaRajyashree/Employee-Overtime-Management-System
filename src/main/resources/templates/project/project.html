@@ -28,7 +28,7 @@
             <th>Project Code</th>
             <th>Estimated End Date</th>
             <th>Department</th>
-            <th th:if="${user.isAdmin()}">Action</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -37,13 +37,16 @@
             <td th:text="${project.projectCode}"></td>
             <td th:text="${project.estimatedDueDate}"></td>
             <td th:text="${project.department.departmentName}"></td>
-            <td th:if="${user.isAdmin()}">
+            <td>
 
-                <a  th:if="${member.isLead() or member.getUser().isAdmin()}" th:href="@{'/project/project-member/' +${project.id}}" class="btn btn-info">View Member</a>
+                <a th:href="@{'/project/project-member/' +${project.id}}"
+                   class="btn btn-info">View Member</a>
 
-                <a class="btn btn-primary" th:href="@{'/project/update-project/'+${project.id}}">Update</a>
+                <a th:if="${user.isAdmin()}" class="btn btn-primary"
+                   th:href="@{'/project/update-project/'+${project.id}}">Update</a>
 
-                <a th:href="@{'/project/delete/'+${project.id}}" class="btn btn-danger">Delete</a>
+                <a th:if="${user.isAdmin()}" th:href="@{'/project/delete/'+${project.id}}"
+                   class="btn btn-danger">Delete</a>
             </td>
         </tr>
 

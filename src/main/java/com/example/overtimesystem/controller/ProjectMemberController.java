@@ -2,11 +2,16 @@ package com.example.overtimesystem.controller;
 
 
 import com.example.overtimesystem.dto.ProjectMemberDto;
+import com.example.overtimesystem.entity.Month;
+import com.example.overtimesystem.entity.OverTimeMaster;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.ProjectMember;
+import com.example.overtimesystem.helper.LoggedInUser;
+import com.example.overtimesystem.repository.OverTimeMasterRepository;
 import com.example.overtimesystem.repository.ProjectMemberRepository;
 import com.example.overtimesystem.repository.ProjectRepository;
 import com.example.overtimesystem.repository.UserRepository;
+import com.example.overtimesystem.service.OverTimeDetailService;
 import com.example.overtimesystem.service.ProjectMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -32,6 +38,11 @@ public class ProjectMemberController {
 
     private final ProjectRepository projectRepository;
 
+    private  final OverTimeMasterRepository overTimeMasterRepository;
+
+    private final LoggedInUser loggedInUser;
+
+    private final OverTimeDetailService overTimeDetailService;
 
     @RequestMapping(value = "/project/project-member/{id}", method = RequestMethod.GET)
     public String projectMember(@PathVariable("id") int id, Model model, RedirectAttributes redirectAttributes
@@ -40,6 +51,7 @@ public class ProjectMemberController {
         if (project.isPresent()) {
             Project presentProject = project.get();
             model.addAttribute("project", presentProject);
+            model.addAttribute("lead",projectMemberService.Lead(id));
             model.addAttribute("projectMembers", projectMemberService.getAllProjectMemberByProjectId(id));
             model.addAttribute("user", userRepository.findByEmail(principal.getName()));
 
@@ -102,6 +114,24 @@ public class ProjectMemberController {
         model.addAttribute("user", userRepository.findByEmail(principal.getName()));
 
         return "redirect:/project/project-member/" + projectId + "?success";
+    }
+
+
+    @RequestMapping(value = "/project/project-member/{project_id}/view-otd/{id}", method = RequestMethod.GET)
+    public String memberOTD(@ModelAttribute("projectMember") ProjectMemberDto projectMemberDtoDto,
+                             @PathVariable("project_id") int projectId, Principal principal, Model model,
+                             @PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        ProjectMember projectMember=projectMemberRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("ProjectMember doesnot exist")
+        );
+
+        OverTimeMaster overTimeMaster=overTimeMasterRepository.findByUserYearAndMonth(LocalDate.now().getYear(),
+                Month.valueOfMonthNumber(LocalDate.now().getMonthValue()).toString(),projectMember.getUser().getId());
+        model.addAttribute("master",overTimeMaster);
+        model.addAttribute("details",overTimeDetailService.getAllByOverTimeMaster(overTimeMaster.getId()));
+        model.addAttribute("user", loggedInUser.getCurrentUser());
+
+        return "/project/member-otd";
     }
 
 

@@ -58,4 +58,10 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
         List<OverTimeDetail> overTimeDetailList = this.overTimeDetailRepository.findAll();
         return overTimeDetailList.stream().map(x -> new OverTimeDetailDto(x)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<OverTimeDetailDto> getAllByOverTimeMaster(int id) {
+        List<OverTimeDetail> overTimeDetailList=overTimeDetailRepository.findAllByOverTimeMaster(id);
+        return  overTimeDetailList.stream().map(x->new OverTimeDetailDto(x)).collect(Collectors.toList());
+    }
 }
