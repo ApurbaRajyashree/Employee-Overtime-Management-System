@@ -1,6 +1,5 @@
 package com.example.overtimesystem.controller;
 
-import com.example.overtimesystem.entity.OverTimeDetail;
 import com.example.overtimesystem.entity.OverTimeMaster;
 import com.example.overtimesystem.helper.ExportOverTimeDetail;
 import com.example.overtimesystem.repository.OverTimeDetailRepository;
@@ -25,13 +24,15 @@ public class ExportOverTimeController {
 
     private final OverTimeMasterRepository overTimeMasterRepository;
 
+    private final OverTimeDetailRepository overTimeDetailRepository;
+
     @GetMapping("/master/export-detail/{detail_id}")
     public String exportDetailReport(@PathVariable("detail_id") int id, Model model, Principal principal,
                                      RedirectAttributes redirectAttributes, HttpServletResponse response) throws IOException {
         OverTimeMaster overTimeMaster=overTimeMasterRepository.findById(id).orElseThrow(
                 ()->new RuntimeException("OverTime Master does not exist!")
         );
-        ExportOverTimeDetail exportOverTimeDetail1=new ExportOverTimeDetail(overTimeMaster.getOverTimeDetails(),overTimeMaster);
+        ExportOverTimeDetail exportOverTimeDetail1=new ExportOverTimeDetail(overTimeMaster.getOverTimeDetails(), overTimeDetailRepository, overTimeMaster);
 
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
