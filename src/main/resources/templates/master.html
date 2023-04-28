@@ -17,6 +17,11 @@
     <div class="row col-md-10">
         <h2>Overtime Masters</h2>
     </div>
+    <div th:if="${param.success}">
+        <div class="alert alert-info" >
+            <span th:text="${msg}"></span>
+        </div>
+    </div>
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
@@ -32,7 +37,7 @@
             <td>
                 <a th:href="@{'/master/view-detail/' +${master.id}}" class="btn btn-primary">View All</a>
                 <span>/</span>
-                <a  class="btn btn-info" >Export</a>
+                <a  class="btn btn-info"  th:href="@{'/master/export-detail/'+${master.id}}" >Export</a>
             </td>
         </tr>
         </tbody>
