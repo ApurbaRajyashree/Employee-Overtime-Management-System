@@ -32,13 +32,15 @@ public class ExportOverTimeController {
         OverTimeMaster overTimeMaster=overTimeMasterRepository.findById(id).orElseThrow(
                 ()->new RuntimeException("OverTime Master does not exist!")
         );
-        ExportOverTimeDetail exportOverTimeDetail1=new ExportOverTimeDetail(overTimeMaster.getOverTimeDetails(), overTimeDetailRepository, overTimeMaster);
+        try {
+            ExportOverTimeDetail exportOverTimeDetail1=new ExportOverTimeDetail(overTimeMaster.getOverTimeDetails(), overTimeDetailRepository, overTimeMaster);
 
-        response.setContentType("application/octet-stream");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        String currentDateTime = dateFormatter.format(new Date());
+            exportOverTimeDetail1.OtdSheet();
 
-        exportOverTimeDetail1.OtdSheet();
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error",e.getMessage());
+            return "redirect:/master?fail";
+        }
         redirectAttributes.addFlashAttribute("msg","Excel sheet exported.");
         return "redirect:/master?success";
     }

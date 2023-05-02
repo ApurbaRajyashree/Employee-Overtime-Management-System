@@ -22,6 +22,11 @@
             <span th:text="${msg}"></span>
         </div>
     </div>
+    <div th:if="${param.fail}">
+        <div class="alert alert-danger" >
+            <span th:text="${error}"></span>
+        </div>
+    </div>
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
