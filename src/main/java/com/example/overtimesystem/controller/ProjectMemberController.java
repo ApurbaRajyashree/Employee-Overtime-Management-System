@@ -124,14 +124,26 @@ public class ProjectMemberController {
         ProjectMember projectMember=projectMemberRepository.findById(id).orElseThrow(
                 ()-> new RuntimeException("ProjectMember doesnot exist")
         );
+        try {
 
-        OverTimeMaster overTimeMaster=overTimeMasterRepository.findByUserYearAndMonth(LocalDate.now().getYear(),
-                Month.valueOfMonthNumber(LocalDate.now().getMonthValue()).toString(),projectMember.getUser().getId());
-        model.addAttribute("master",overTimeMaster);
-        model.addAttribute("details",overTimeDetailService.getAllByOverTimeMaster(overTimeMaster.getId()));
-        model.addAttribute("user", loggedInUser.getCurrentUser());
+            OverTimeMaster overTimeMaster = overTimeMasterRepository.findByUserYearAndMonth(LocalDate.now().getYear(),
+                    Month.valueOfMonthNumber(LocalDate.now().getMonthValue()).toString(), projectMember.getUser().getId());
+            if (overTimeMaster == null) {
+                redirectAttributes.addFlashAttribute("error", projectMember.getUser().getFullName() + "'s " +
+                        "OverTime does not exist");
+                return "redirect:/project/project-member/" + projectId + "?fail";
 
-        return "/project/member-otd";
+            }
+            model.addAttribute("master", overTimeMaster);
+            model.addAttribute("details", overTimeDetailService.getAllByOverTimeMaster(overTimeMaster.getId()));
+            model.addAttribute("user", loggedInUser.getCurrentUser());
+
+            return "/project/member-otd";
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/project/project-member/" + projectId + "?fail";
+        }
+
     }
 
 

@@ -52,10 +52,13 @@ public class OverTimeMasterController {
             List<OverTimeDetailDto> usersOverTimeDetail=overTimeMasterService.getAllOverTimeDetailofLogedInUser(
                     overTimeDetailDtoList
             );
-            model.addAttribute("overTimeDetails",presentMaster.getOverTimeDetails());
+            model.addAttribute("overTimeDetails",usersOverTimeDetail);
             model.addAttribute("user",userRepository.findByEmail(principal.getName()));
 
             return "/over-time-detail";
+        }
+        else {
+            redirectAttributes.addFlashAttribute("error","OverTime doesnot exist");
         }
         redirectAttributes.addFlashAttribute("error","Something went wrong");
         model.addAttribute("user",userRepository.findByEmail(principal.getName()));
