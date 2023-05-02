@@ -2,6 +2,7 @@ package com.example.overtimesystem.controller;
 
 import com.example.overtimesystem.dto.ProjectDto;
 import com.example.overtimesystem.dto.ProjectMemberDto;
+import com.example.overtimesystem.dto.ProjectMemberRequestDto;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.repository.ProjectMemberRepository;
 import com.example.overtimesystem.repository.ProjectRepository;
@@ -125,7 +126,7 @@ public class ProjectController {
         Optional<Project> project=projectRepository.findById(id);
         if(project.isPresent()){
             Project presentProject=project.get();
-            model.addAttribute("projectMember",new ProjectMemberDto());
+            model.addAttribute("projectMember",new ProjectMemberRequestDto());
             model.addAttribute("project", new ProjectDto(presentProject));
             model.addAttribute("user",userRepository.findByEmail(principal.getName()));
 

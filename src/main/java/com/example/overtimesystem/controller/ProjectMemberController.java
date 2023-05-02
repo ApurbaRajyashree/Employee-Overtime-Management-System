@@ -2,10 +2,8 @@ package com.example.overtimesystem.controller;
 
 
 import com.example.overtimesystem.dto.ProjectMemberDto;
-import com.example.overtimesystem.entity.Month;
-import com.example.overtimesystem.entity.OverTimeMaster;
-import com.example.overtimesystem.entity.Project;
-import com.example.overtimesystem.entity.ProjectMember;
+import com.example.overtimesystem.dto.ProjectMemberRequestDto;
+import com.example.overtimesystem.entity.*;
 import com.example.overtimesystem.helper.LoggedInUser;
 import com.example.overtimesystem.repository.OverTimeMasterRepository;
 import com.example.overtimesystem.repository.ProjectMemberRepository;
@@ -25,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -64,25 +63,29 @@ public class ProjectMemberController {
     }
 
     @RequestMapping(value = "/project/assign-member/add", method = RequestMethod.POST)
-    public String processAssignMember(@ModelAttribute("projectMember") ProjectMemberDto projectMemberDto,
+    public String processAssignMember(@ModelAttribute("projectMember") ProjectMemberRequestDto projectMemberDto,
                                       BindingResult result, Model model, Principal principal,
                                       RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("projectMember", projectMemberDto);
+            model.addAttribute("projectMembers", projectMemberDto);
             model.addAttribute("user", userRepository.findByEmail(principal.getName()));
 
             return "/project/assign-member";
         }
 
         try {
-            ProjectMember testProjectMember = projectMemberRepository.findByProjectAndUser(projectMemberDto.getProject().getId(),
-                    projectMemberDto.getUser().getId());
-            if (testProjectMember == null) {
-                projectMemberService.addUserToProject(projectMemberDto);
-            } else {
-                throw new RuntimeException(projectMemberDto.getUser().getFullName() + " already assigned to project " +
-                        projectMemberDto.getProject().getProjectName());
+            List<User> userList=projectMemberDto.getUsers();
+            for(User eachUser:userList){
+                ProjectMember testProjectMember = projectMemberRepository.findByProjectAndUser(projectMemberDto.getProject().getId(),
+                        eachUser.getId());
+                if (testProjectMember != null) {
+                    throw new RuntimeException(eachUser.getFullName() + " already assigned to project " +
+                            projectMemberDto.getProject().getProjectName());
+
+                }
             }
+            projectMemberService.addUserToProject(projectMemberDto);
+
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             model.addAttribute("user", userRepository.findByEmail(principal.getName()));

@@ -60,7 +60,8 @@
                             <select
                                     id="multiple-select"
                                     class="select"
-                                    th:field="*{user}"
+                                    th:field="*{users}"
+                                    multiple
                                     required >
                                 <option
                                         th:each="user : ${users}"

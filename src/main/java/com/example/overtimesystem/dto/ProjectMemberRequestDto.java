@@ -3,23 +3,23 @@ package com.example.overtimesystem.dto;
 import com.example.overtimesystem.entity.Project;
 import com.example.overtimesystem.entity.ProjectMember;
 import com.example.overtimesystem.entity.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class ProjectMemberDto {
+public class ProjectMemberRequestDto {
+
     private int id;
     private boolean isLead=false;
-    private User user;
+    private List<User> users;
     private Project project;
 
-    public ProjectMemberDto(ProjectMember projectMember) {
-        this.id = projectMember.getId();
-        this.user = projectMember.getUser();
-        this.project = projectMember.getProject();
-        this.isLead = projectMember.isLead();
-    }
+
 }
