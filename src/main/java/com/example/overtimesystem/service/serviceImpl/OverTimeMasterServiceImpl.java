@@ -56,9 +56,7 @@ public class OverTimeMasterServiceImpl implements OverTimeMasterService {
             for (OverTimeMaster eachMaster : overTimeMasterList) {
                 if (eachMaster.getUser().getEmail().equals(userDetails.getUsername())) {
                     usersOverTimeMaster.add(eachMaster);
-                    if ((eachMaster.getYear() < presentYear) || eachMaster.getMonth().monthNumber < presentMonth) {
-                        createOverTimeMaster(user.getId());
-                    }
+
                 }
             }
 

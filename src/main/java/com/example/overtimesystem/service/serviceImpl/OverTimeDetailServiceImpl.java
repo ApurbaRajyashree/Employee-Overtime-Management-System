@@ -36,6 +36,12 @@ public class OverTimeDetailServiceImpl implements OverTimeDetailService {
         overTimeDetail.setDate(LocalDate.now());
         int userId = this.userRepository.getUserByUserName(username).getId();
         OverTimeMaster overTimeMaster = overTimeMasterRepository.findByUserYearAndMonth(LocalDate.now().getYear(), Month.valueOfMonthNumber(LocalDate.now().getMonthValue()).toString(), userId);
+
+        if(overTimeDetailDto.getStartTime().compareTo(overTimeDetail.getEndTime())>0){
+                throw new RuntimeException("End time should be greater than Start Time.");
+        } else if (overTimeDetailDto.getStartTime().compareTo(overTimeDetail.getEndTime())==0) {
+            throw new RuntimeException("Start time and End Time are equal!!!");
+        }
         if (overTimeMaster == null) {
             OverTimeMasterDto createdMaster = overTimeMasterService.createOverTimeMaster(userId);
             overTimeDetail.setOverTimeMaster(new OverTimeMaster(createdMaster));

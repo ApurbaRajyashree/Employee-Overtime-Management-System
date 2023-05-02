@@ -3,41 +3,34 @@ package com.example.overtimesystem.helper;
 import com.example.overtimesystem.entity.OverTimeDetail;
 import com.example.overtimesystem.entity.OverTimeMaster;
 import com.example.overtimesystem.repository.OverTimeDetailRepository;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.apache.poi.ss.usermodel.*;
-
-import static java.time.temporal.ChronoUnit.HOURS;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.HOURS;
+
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 
 public class ExportOverTimeDetail {
-    private List<OverTimeDetail> overTimeDetailList;
 
-    private final OverTimeDetailRepository overTimeDetailRepository;
-    private OverTimeMaster overTimeMaster;
-    private XSSFWorkbook workbook;
-    private XSSFSheet sheet;
-
-    public ExportOverTimeDetail(List<OverTimeDetail> overTimeDetailList, OverTimeDetailRepository overTimeDetailRepository, OverTimeMaster overTimeMaster) {
-        this.overTimeDetailList = overTimeDetailList;
-        this.overTimeDetailRepository = overTimeDetailRepository;
-        this.overTimeMaster = overTimeMaster;
-        workbook = new XSSFWorkbook();
-    }
-
-    public void OtdSheet() throws IOException {
-        this.sheet = workbook.createSheet("OTD");
+    public static ByteArrayInputStream OtdSheet(List<OverTimeDetail> overTimeDetailList, OverTimeDetailRepository overTimeDetailRepository, OverTimeMaster overTimeMaster) throws IOException {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        XSSFSheet sheet = workbook.createSheet("OTD");
 
         Row headingRow = sheet.createRow(1);
         Cell headingCell1 = headingRow.createCell(1);
@@ -68,7 +61,7 @@ public class ExportOverTimeDetail {
         sheet.createRow(5);
 
 
-        List<String> projectName = overTimeDetailRepository.findAllProjectInOverTimeDetail(this.overTimeMaster.getId());
+        List<String> projectName = overTimeDetailRepository.findAllProjectInOverTimeDetail(overTimeMaster.getId());
         Row projectRow = sheet.createRow(6);
         Cell projectCell = projectRow.createCell(1);
 
@@ -101,7 +94,7 @@ public class ExportOverTimeDetail {
         font.setBold(false);
         font.setFontHeight(12);
         tableCellStyle.setFont(font);
-        for (OverTimeDetail eachDetail : this.overTimeDetailList) {
+        for (OverTimeDetail eachDetail : overTimeDetailList) {
             Row tableData = sheet.createRow(++rowCount);
             createCell(tableData, 1, eachDetail.getDate().toString(), tableCellStyle);
             createCell(tableData, 2, eachDetail.getDate().getDayOfWeek().toString(), tableCellStyle);
@@ -121,7 +114,7 @@ public class ExportOverTimeDetail {
         totalHourCell.setCellStyle(headingCellStyle);
 
         Cell totalHourCal = totalHour.createCell(5, CellType.FORMULA);
-        totalHourCal.setCellValue("=SUM(F" + (totalHourCal.getRowIndex()) + ":F" + (totalHourCal.getRowIndex() - (this.overTimeDetailList.size() - 1)) + ")\n");
+        totalHourCal.setCellValue("=SUM(F" + (totalHourCal.getRowIndex()) + ":F" + (totalHourCal.getRowIndex() - (overTimeDetailList.size() - 1)) + ")\n");
 
         sheet.createRow(++rowCount);
 
@@ -145,12 +138,11 @@ public class ExportOverTimeDetail {
         Row employeeSignature = sheet.createRow(++rowCount);
         Cell cellSign = employeeSignature.createCell(1);
         cellSign.setCellValue("Employee's Signature");
-        Cell date=employeeSignature.createCell(4);
-        date.setCellValue("Date: "+ LocalDate.now());
-         currentRow = ++rowCount;
+        Cell date = employeeSignature.createCell(4);
+        date.setCellValue("Date: " + LocalDate.now());
+        currentRow = ++rowCount;
         CellRangeAddress mergeRegionGap = new CellRangeAddress(currentRow, currentRow, 1, 5);
         sheet.addMergedRegion(mergeRegionGap);
-
 
 
         Row text2 = sheet.createRow(++rowCount);
@@ -174,10 +166,10 @@ public class ExportOverTimeDetail {
         Row superVisorSign = sheet.createRow(++rowCount);
         Cell cellSign1 = superVisorSign.createCell(1);
         cellSign1.setCellValue("Supervisor’s signature ");
-        Cell date1=superVisorSign.createCell(4);
-        date1.setCellValue("Date: "+ LocalDate.now());
+        Cell date1 = superVisorSign.createCell(4);
+        date1.setCellValue("Date: " + LocalDate.now());
 
-        currentRow=++rowCount;
+        currentRow = ++rowCount;
         CellRangeAddress mergeRegionGap1 = new CellRangeAddress(currentRow, currentRow, 1, 5);
         sheet.addMergedRegion(mergeRegionGap1);
 
@@ -201,20 +193,18 @@ public class ExportOverTimeDetail {
         Row hrSign = sheet.createRow(++rowCount);
         Cell cellSign14 = hrSign.createCell(1);
         cellSign14.setCellValue("HR Representative ");
-        Cell date3=hrSign.createCell(4);
-        date3.setCellValue("Date: "+ LocalDate.now());
+        Cell date3 = hrSign.createCell(4);
+        date3.setCellValue("Date: " + LocalDate.now());
 
 
+        workbook.write(outputStream);
 
 
-        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\me\\IdeaProjects\\OverTimeSystem\\data\\sheet.xlsx");
-        workbook.write(fileOutputStream);
-        fileOutputStream.close();
+        return new ByteArrayInputStream(outputStream.toByteArray());
 
     }
 
-    private void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
-        sheet.autoSizeColumn(columnCount);
+    private static void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
         Cell cell = row.createCell(columnCount);
         if (valueOfCell instanceof Integer) {
             cell.setCellValue((Integer) valueOfCell);
