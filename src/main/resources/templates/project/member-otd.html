@@ -14,7 +14,7 @@
 <nav th:replace="~{layout::navbar}"></nav>
 <div class="container">
     <div class="row col-md-10">
-        <h3><span th:text="${user.fullName}"></span></h3>
+        <h5><span th:text="${member.user.fullName}"></span></h5>
         Month: <span th:text="${master.month}"/>
         Year: <span th:text="${master.year}"/>
     </div>

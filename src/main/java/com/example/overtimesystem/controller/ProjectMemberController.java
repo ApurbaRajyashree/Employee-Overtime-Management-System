@@ -53,9 +53,17 @@ public class ProjectMemberController {
             Project presentProject = project.get();
             model.addAttribute("project", presentProject);
             ProjectMember projectMember=projectMemberService.Lead(id);
-            if((projectMember==null && logedInUser.getRole()==Role.USER) ||(projectMember.getUser().getId()!= logedInUser.getId() && logedInUser.getRole()==Role.USER)){
+
+            if((projectMember==null && logedInUser.getRole()==Role.USER) ){
                 redirectAttributes.addFlashAttribute("error","You cannot access the page.");
                 return "redirect:/project/project?fail";
+            }
+
+            if(projectMember!=null){
+                if((projectMember.getUser().getId()!=logedInUser.getId())&&(logedInUser.getRole().equals(Role.USER))){
+                    redirectAttributes.addFlashAttribute("error","You cannot access the page.");
+                    return "redirect:/project/project?fail";
+                }
             }
             model.addAttribute("lead",projectMemberService.Lead(id));
             List<ProjectMemberDto> projectMembers=projectMemberService.getAllProjectMemberByProjectId(id);
@@ -83,14 +91,17 @@ public class ProjectMemberController {
 
         try {
             List<User> userList=projectMemberDto.getUsers();
+            String msg="";
             for(User eachUser:userList){
                 ProjectMember testProjectMember = projectMemberRepository.findByProjectAndUser(projectMemberDto.getProject().getId(),
                         eachUser.getId());
                 if (testProjectMember != null) {
-                    throw new RuntimeException(eachUser.getFullName() + " already assigned to project " +
-                            projectMemberDto.getProject().getProjectName());
-
+                    msg+=eachUser.getFullName()+", ";
                 }
+            }
+            if(!msg.isEmpty()){
+                throw new RuntimeException(msg + "  already assigned to project " +
+                        projectMemberDto.getProject().getProjectName());
             }
             projectMemberService.addUserToProject(projectMemberDto);
 
@@ -145,6 +156,7 @@ public class ProjectMemberController {
                 return "redirect:/project/project-member/" + projectId + "?fail";
 
             }
+            model.addAttribute("member",projectMember);
             model.addAttribute("master", overTimeMaster);
             model.addAttribute("details", overTimeDetailService.getAllByOverTimeMaster(overTimeMaster.getId()));
             model.addAttribute("user", loggedInUser.getCurrentUser());
