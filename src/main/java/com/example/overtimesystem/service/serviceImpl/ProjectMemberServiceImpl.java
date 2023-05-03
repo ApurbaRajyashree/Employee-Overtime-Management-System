@@ -40,9 +40,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public List<ProjectMemberDto> getAllProjectMemberByProjectId(int id) {
-        Project project = projectRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Project doesnot exist!")
-        );
+
         List<ProjectMember> projectMemberList = projectMemberRepository.findAllProjectMemberByProjectId(id);
         return projectMemberList.stream().map(x -> new ProjectMemberDto(x)).collect(Collectors.toList());
     }
@@ -59,7 +57,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         projectMembers.remove(projectMember);
         projectMember.setProject(null);
         projectMember.setUser(null);
-        projectMemberRepository.delete(projectMember);
+        projectMemberRepository.deleteById(id);
         return "Deleted successfully";
 
     }

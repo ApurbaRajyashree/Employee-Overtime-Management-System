@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,20 +47,27 @@ public class ProjectMemberController {
     @RequestMapping(value = "/project/project-member/{id}", method = RequestMethod.GET)
     public String projectMember(@PathVariable("id") int id, Model model, RedirectAttributes redirectAttributes
             , Principal principal) {
+        User logedInUser=userRepository.findByEmail(principal.getName());
         Optional<Project> project = projectRepository.findById(id);
         if (project.isPresent()) {
             Project presentProject = project.get();
             model.addAttribute("project", presentProject);
+            ProjectMember projectMember=projectMemberService.Lead(id);
+            if((projectMember==null && logedInUser.getRole()==Role.USER) ||(projectMember.getUser().getId()!= logedInUser.getId() && logedInUser.getRole()==Role.USER)){
+                redirectAttributes.addFlashAttribute("error","You cannot access the page.");
+                return "redirect:/project/project?fail";
+            }
             model.addAttribute("lead",projectMemberService.Lead(id));
-            model.addAttribute("projectMembers", projectMemberService.getAllProjectMemberByProjectId(id));
+            List<ProjectMemberDto> projectMembers=projectMemberService.getAllProjectMemberByProjectId(id);
+            model.addAttribute("projectMembers",projectMembers );
             model.addAttribute("user", userRepository.findByEmail(principal.getName()));
 
             return "/project/project-member";
         }
         redirectAttributes.addFlashAttribute("error", "Something went wrong");
-        model.addAttribute("user", userRepository.findByEmail(principal.getName()));
+        model.addAttribute("user",logedInUser );
 
-        return "redirect:/project/project-member?fail";
+        return "redirect:/project/project?fail";
     }
 
     @RequestMapping(value = "/project/assign-member/add", method = RequestMethod.POST)
