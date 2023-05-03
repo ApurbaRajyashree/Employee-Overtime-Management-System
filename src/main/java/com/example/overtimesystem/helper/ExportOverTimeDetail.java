@@ -114,7 +114,7 @@ public class ExportOverTimeDetail {
         totalHourCell.setCellStyle(headingCellStyle);
 
         Cell totalHourCal = totalHour.createCell(5, CellType.FORMULA);
-        totalHourCal.setCellValue("=SUM(F" + (totalHourCal.getRowIndex()) + ":F" + (totalHourCal.getRowIndex() - (overTimeDetailList.size() - 1)) + ")\n");
+        totalHourCal.setCellFormula("SUM(F" + (totalHourCal.getRowIndex()) + ":F" + (totalHourCal.getRowIndex() - (overTimeDetailList.size() - 1)) + ")\n");
 
         sheet.createRow(++rowCount);
 
