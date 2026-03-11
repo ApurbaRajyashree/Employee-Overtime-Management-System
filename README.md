@@ -1,8 +1,6 @@
-# OverTimeSystem
+# Employee Overtime Management System
 
-## Overview
-
-OverTimeSystem is a web-based overtime management application developed using **Spring Boot**.
+Employee Overtime Management System is a web-based overtime management application developed using **Spring Boot**.
 The system helps organizations manage employee overtime activities efficiently by providing features for project assignment, overtime logging, and report generation.
 
 Employees can record their overtime work on assigned projects, while administrators can manage projects and employees. The system also allows exporting overtime records into **Excel files** for reporting and approval purposes.
